@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">PaperTelephone</string>
+    <string name="app_name">Paper Telephone</string>
+    <string name="settings">Settings</string>
 </resources>
