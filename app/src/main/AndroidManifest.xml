@@ -23,6 +23,9 @@
         <activity
             android:name=".HowToPlayActivity"
             android:label="How To Play" />
+        <activity
+            android:name=".DrawingActivity"
+            android:label="Draw on Canvas" />
     </application>
 
 </manifest>

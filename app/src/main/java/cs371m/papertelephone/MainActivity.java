@@ -82,4 +82,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HowToPlayActivity.class);
         startActivity(intent);
     }
+
+    public void startNewGame(View view) {
+        Intent intent = new Intent(this, DrawingActivity.class);
+        startActivity(intent);
+    }
 }
