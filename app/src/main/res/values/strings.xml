@@ -15,4 +15,5 @@
     <string name="cancel">Cancel</string>
     <string name="brush_size">Set Brush Size</string>
     <string name="brush_size_seek">Brush Size: %1$d px</string>
+    <string name="draw_button">Draw %1$s</string>
 </resources>

@@ -33,6 +33,8 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         dView = (DrawingView) findViewById(R.id.drawingcanvas);
         tView = (TextView) findViewById(R.id.timerText);
         guessButton = (Button) findViewById(R.id.guessbutton);
+        if (((TelephoneCounter) getApplicationContext()).counter == 1)
+            guessButton.setText(getString(R.string.draw_button, "any word/phrase"));
         int countDownSeconds;
         if(MainActivity.drawCountdown == 0)
             countDownSeconds = 60;
@@ -49,17 +51,16 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                 tView.setText(getString(R.string._60, 0));
                 dView.setTimeLeft(false);
                 guessButton.setText(R.string.start_guessing);
+                guessButton.setEnabled(true);
+                invalidateOptionsMenu();
             }
         }.start();
     }
 
     public void guessButtonClick(View view) {
         String str = String.valueOf(guessButton.getText());
-        if(str.equals(getString(R.string.stop_drawing))) {
-            timer.cancel();
-            guessButton.setText(R.string.start_guessing);
-            dView.setTimeLeft(false);
-        } else if(str.equals(getString(R.string.start_guessing))) {
+        if(str.equals(getString(R.string.start_guessing))) {
+            ((TelephoneCounter) getApplicationContext()).counter += 1;
             // Implement intent for guessing activity
         }
     }
@@ -67,9 +68,17 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.drawing_bar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.colorpicker).setEnabled(dView.getTimeLeft());
+        menu.findItem(R.id.brushsize).setEnabled(dView.getTimeLeft());
+        menu.findItem(R.id.stopdrawing).setEnabled(dView.getTimeLeft());
         return true;
     }
 
@@ -102,6 +111,14 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                 BrushSizeDialog bSize = new BrushSizeDialog(this);
                 bSize.setTitle(R.string.brush_size);
                 bSize.show();
+                return true;
+            case R.id.stopdrawing:
+                timer.cancel();
+                guessButton.setText(R.string.start_guessing);
+                guessButton.setEnabled(true);
+                dView.setTimeLeft(false);
+                invalidateOptionsMenu();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void startNewGame(View view) {
         Intent intent = new Intent(this, DrawingActivity.class);
+        ((TelephoneCounter) getApplicationContext()).counter = 1;
         startActivity(intent);
     }
 }

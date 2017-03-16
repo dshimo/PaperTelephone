@@ -68,6 +68,10 @@ public class DrawingView extends View {
         timeLeft = val;
     }
 
+    public boolean getTimeLeft() {
+        return timeLeft;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float touchX = event.getX();
