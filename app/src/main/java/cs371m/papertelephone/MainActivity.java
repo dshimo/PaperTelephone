@@ -17,9 +17,9 @@ public class MainActivity extends AppCompatActivity {
     private static final int SETTINGS_REQUEST = 1;
 
     private static int rounds;
-    private static int drawCountdown;
+    public static int drawCountdown;
     private static int guessCountdown;
-    private static boolean colorOn;
+    public static boolean colorOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean("colorOn", colorOn);
+
         editor.apply();
     }
 
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == SETTINGS_REQUEST) {
             colorOn = sharedPref.getBoolean("colorOn", true);
             Log.d(TAG, "colorOn: " + colorOn);
+            drawCountdown = Integer.parseInt(sharedPref.getString("drawCountdown", "60"));
         }
     }
 

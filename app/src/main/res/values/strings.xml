@@ -7,4 +7,5 @@
     <string name="a_canvas_to_draw">A canvas to draw should now be displayed on the screen. Pick any word or phrase that comes to your mind, and create a drawing by touching the screen with your finger. Once finished, pass the device to the next person in the group. This person will now try to guess the word/phrase that the drawing is based on. Once a guess has been made, pass the device to the next person and create a drawing based on the guess of the previous person.</string>
     <string name="this_cycle_repeats">This cycle repeats until the device comes back to the person who initiated the game. At this point, the game ends and a montage of how the game progressed will be shown.</string>
     <string name="pick_color">Pick Color</string>
+    <string name="_60">:%1$d</string>
 </resources>

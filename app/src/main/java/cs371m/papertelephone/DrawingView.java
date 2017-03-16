@@ -18,6 +18,7 @@ public class DrawingView extends View {
     private int paintColor = Color.BLACK;
     private Canvas drawCanvas;
     private Bitmap canvasBitmap;
+    private boolean timeLeft;
 
     public DrawingView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -34,6 +35,7 @@ public class DrawingView extends View {
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
         canvasPaint = new Paint(Paint.DITHER_FLAG);
+        timeLeft = true;
     }
 
     @Override
@@ -45,13 +47,19 @@ public class DrawingView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        if(timeLeft) {
+            canvas.drawPath(drawPath, drawPaint);
+        }
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
-        canvas.drawPath(drawPath, drawPaint);
     }
 
     public void setPaintColor(int c) {
         paintColor = c;
         drawPaint.setColor(paintColor);
+    }
+
+    public void setTimeLeft(boolean val) {
+        timeLeft = val;
     }
 
     @Override
@@ -72,7 +80,8 @@ public class DrawingView extends View {
             default:
                 return false;
         }
-        invalidate();
+        if(timeLeft)
+            invalidate();
         return true;
     }
 }
