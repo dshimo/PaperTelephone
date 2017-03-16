@@ -16,7 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:background="#FFFFFFFF" />
+        android:background="#FFFFFFFF"
+        android:layout_below="@+id/timerText" />
 
     <TextView
         android:id="@+id/timerText"
@@ -24,8 +25,17 @@
         android:layout_height="wrap_content"
         android:text="@string/_60"
         android:textSize="30sp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentTop="true" />
+
+    <Button
+        android:id="@+id/guessbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/stop_drawing"
+        android:layout_alignBottom="@+id/timerText"
+        android:layout_toLeftOf="@id/timerText"
+        android:layout_marginRight="50dp"
+        android:onClick="guessButtonClick"/>
 </RelativeLayout>
 

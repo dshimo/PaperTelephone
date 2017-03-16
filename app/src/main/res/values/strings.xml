@@ -8,4 +8,11 @@
     <string name="this_cycle_repeats">This cycle repeats until the device comes back to the person who initiated the game. At this point, the game ends and a montage of how the game progressed will be shown.</string>
     <string name="pick_color">Pick Color</string>
     <string name="_60">:%1$d</string>
+    <string name="start_guessing">Start Guessing</string>
+    <string name="stop_drawing">Stop Drawing</string>
+    <string name="change_brush_size">Change Brush Size</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="brush_size">Set Brush Size</string>
+    <string name="brush_size_seek">Brush Size: %1$d px</string>
 </resources>

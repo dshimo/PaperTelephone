@@ -7,4 +7,9 @@
         android:title="@string/pick_color"
         android:icon="@drawable/colorpicker"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/brushsize"
+        android:title="@string/change_brush_size"
+        android:icon="@drawable/brush"
+        app:showAsAction="ifRoom"/>
 </menu>

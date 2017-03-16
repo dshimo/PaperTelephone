@@ -47,15 +47,21 @@ public class DrawingView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
         if(timeLeft) {
             canvas.drawPath(drawPath, drawPaint);
         }
-        canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
     }
 
     public void setPaintColor(int c) {
         paintColor = c;
-        drawPaint.setColor(paintColor);
+        if(timeLeft)
+            drawPaint.setColor(paintColor);
+    }
+
+    public void setBrushWidth(int w) {
+        if(timeLeft)
+            drawPaint.setStrokeWidth(w);
     }
 
     public void setTimeLeft(boolean val) {

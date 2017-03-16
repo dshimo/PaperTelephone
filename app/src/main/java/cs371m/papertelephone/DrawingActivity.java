@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.jrummyapps.android.colorpicker.ColorPickerDialog;
@@ -18,10 +20,11 @@ import com.jrummyapps.android.colorpicker.ColorPickerDialogListener;
 
 public class DrawingActivity extends AppCompatActivity implements ColorPickerDialogListener{
 
-    private DrawingView dView;
+    public DrawingView dView;
     private static final int DIALOG_ID = 0;
     private CountDownTimer timer;
     private TextView tView;
+    private Button guessButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         setContentView(R.layout.activity_drawing);
         dView = (DrawingView) findViewById(R.id.drawingcanvas);
         tView = (TextView) findViewById(R.id.timerText);
+        guessButton = (Button) findViewById(R.id.guessbutton);
         int countDownSeconds;
         if(MainActivity.drawCountdown == 0)
             countDownSeconds = 60;
@@ -44,8 +48,20 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
             public void onFinish() {
                 tView.setText(getString(R.string._60, 0));
                 dView.setTimeLeft(false);
+                guessButton.setText(R.string.start_guessing);
             }
         }.start();
+    }
+
+    public void guessButtonClick(View view) {
+        String str = String.valueOf(guessButton.getText());
+        if(str.equals(getString(R.string.stop_drawing))) {
+            timer.cancel();
+            guessButton.setText(R.string.start_guessing);
+            dView.setTimeLeft(false);
+        } else if(str.equals(getString(R.string.start_guessing))) {
+            // Implement intent for guessing activity
+        }
     }
 
     @Override
@@ -82,6 +98,10 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                             .setShowColorShades(true)
                             .show(this);
                 return true;
+            case R.id.brushsize:
+                BrushSizeDialog bSize = new BrushSizeDialog(this);
+                bSize.setTitle(R.string.brush_size);
+                bSize.show();
             default:
                 return super.onOptionsItemSelected(item);
         }
