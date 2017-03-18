@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fm = getFragmentManager();
         switch (item.getItemId()) {
             case R.id.settings:
-                Intent intent = new Intent(this, SettingsActivity.class);
+                Intent intent = new Intent(this, PreferencesActivity.class);
                 startActivityForResult(intent, SETTINGS_REQUEST);
                 return true;
             default:

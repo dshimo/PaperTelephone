@@ -19,7 +19,7 @@
 
         <!-- Allow the Settings activity to be launched -->
         <activity
-            android:name=".SettingsActivity"
+            android:name=".PreferencesActivity"
             android:label="Settings" />
         <activity
             android:name=".HowToPlayActivity"

@@ -3,9 +3,19 @@
     <string name="settings">Settings</string>
     <string name="new_game">New Game</string>
     <string name="how_to_play">How To Play</string>
-    <string name="welcome_to_paper">Welcome to Paper Telephone, a fun and multiplayer drawing game. This game involves three steps: draw an image based on a word, pass the device to the next person, and guess the original word associated with the drawing. To begin playing, select the New Game button on the home screen.</string>
-    <string name="a_canvas_to_draw">A canvas to draw should now be displayed on the screen. Pick any word or phrase that comes to your mind, and create a drawing by touching the screen with your finger. Once finished, pass the device to the next person in the group. This person will now try to guess the word/phrase that the drawing is based on. Once a guess has been made, pass the device to the next person and create a drawing based on the guess of the previous person.</string>
-    <string name="this_cycle_repeats">This cycle repeats until the device comes back to the person who initiated the game. At this point, the game ends and a montage of how the game progressed will be shown.</string>
+    <string name="welcome_to_paper">Welcome to Paper Telephone, a fun multiplayer drawing game.
+        This game involves three steps: draw an image based on a word, pass the device to the next
+        player, and guess the original word associated with the drawing. To begin playing, select
+        the New Game button on the home screen.</string>
+    <string name="a_canvas_to_draw">A canvas to draw should now be displayed on the screen. Given a
+        word to draw, create your work of art by drawing on screen with your finger. Once finished,
+        pass the device onto the next player in the group for the next round. This player will now
+        try to guess the word that the drawing is based on. Once a guess has been made, pass the
+        device again to the next player in line and create a drawing based on the guess
+        of the previous person.</string>
+    <string name="this_cycle_repeats">This cycle repeats until the device comes back to the player
+        who initiated the game, or the number of chosen rounds has been reached. At this point,
+        the game ends and a montage of the word's transformation will be shown.</string>
     <string name="pick_color">Pick Color</string>
     <string name="_60">:%1$d</string>
     <string name="start_guessing">Start Guessing</string>
