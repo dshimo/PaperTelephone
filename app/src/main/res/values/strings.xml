@@ -15,7 +15,7 @@
         of the previous person.</string>
     <string name="this_cycle_repeats">This cycle repeats until the device comes back to the player
         who initiated the game, or the number of chosen rounds has been reached. At this point,
-        the game ends and a montage of the word's transformation will be shown.</string>
+        the game ends and a montage of the word\'s transformation will be shown.</string>
     <string name="pick_color">Pick Color</string>
     <string name="_60">:%1$d</string>
     <string name="start_guessing">Start Guessing</string>
