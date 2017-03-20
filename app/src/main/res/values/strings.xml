@@ -26,4 +26,8 @@
     <string name="brush_size">Set Brush Size</string>
     <string name="brush_size_seek">Brush Size: %1$d px</string>
     <string name="draw_button">Draw %1$s</string>
+    <string name="guess_hint">Enter guess here</string>
+    <string name="guess_prompt">Your turn to guess!</string>
+    <string name="guess_button">Guess</string>
+    <string name="guess_image_desc">Image to guess!</string>
 </resources>

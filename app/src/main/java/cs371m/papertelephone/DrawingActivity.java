@@ -2,6 +2,8 @@ package cs371m.papertelephone;
 
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.support.annotation.ColorInt;
@@ -18,9 +20,9 @@ import android.widget.TextView;
 import com.jrummyapps.android.colorpicker.ColorPickerDialog;
 import com.jrummyapps.android.colorpicker.ColorPickerDialogListener;
 
-import java.util.Random;
+import java.io.ByteArrayOutputStream;
 
-public class DrawingActivity extends AppCompatActivity implements ColorPickerDialogListener{
+public class DrawingActivity extends AppCompatActivity implements ColorPickerDialogListener {
 
     public DrawingView dView;
     private static final int DIALOG_ID = 0;
@@ -35,30 +37,17 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         dView = (DrawingView) findViewById(R.id.drawingcanvas);
         tView = (TextView) findViewById(R.id.timerText);
         guessButton = (Button) findViewById(R.id.guessbutton);
-        if (((TelephoneCounter) getApplicationContext()).counter == 1) {
-            Random rand = new Random();
-            String[] easy = getResources().getStringArray(R.array.easywords);
-            String[] medium = getResources().getStringArray(R.array.mediumwords);
-            String[] hard = getResources().getStringArray(R.array.hardwords);
-            int index = rand.nextInt(easy.length + medium.length + hard.length);
-            String word;
-            if (index < easy.length)
-                word = easy[index];
-            else if(index < (easy.length + medium.length))
-                word = medium[index - easy.length];
-            else
-                word = hard[index - easy.length - medium.length];
-            guessButton.setText(getString(R.string.draw_button, word));
-        }
+        if (((TelephoneCounter) getApplicationContext()).counter == 1)
+            guessButton.setText(getString(R.string.draw_button, "any word/phrase"));
         int countDownSeconds;
-        if(MainActivity.drawCountdown == 0)
+        if (MainActivity.drawCountdown == 0)
             countDownSeconds = 60;
         else
             countDownSeconds = MainActivity.drawCountdown;
         timer = new CountDownTimer(countDownSeconds * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                tView.setText(getString(R.string._60, (int)(millisUntilFinished/1000)));
+                tView.setText(getString(R.string._60, (int) (millisUntilFinished / 1000)));
             }
 
             @Override
@@ -74,9 +63,20 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
 
     public void guessButtonClick(View view) {
         String str = String.valueOf(guessButton.getText());
-        if(str.equals(getString(R.string.start_guessing))) {
+        if (str.equals(getString(R.string.start_guessing))) {
             ((TelephoneCounter) getApplicationContext()).counter += 1;
             // Implement intent for guessing activity
+            // convert bitmap into byte array
+            dView.setDrawingCacheEnabled(true);
+            Bitmap bmp = dView.getDrawingCache();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+
+            // pass byte array into intent
+            Intent intent = new Intent(this, GuessingActivity.class);
+            intent.putExtra("picture", byteArray);
+            startActivity(intent);
         }
     }
 
@@ -102,7 +102,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         FragmentManager fm = getFragmentManager();
         switch (item.getItemId()) {
             case R.id.colorpicker:
-                if(MainActivity.colorOn)
+                if (MainActivity.colorOn)
                     ColorPickerDialog.newBuilder()
                             .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
                             .setAllowPresets(false)

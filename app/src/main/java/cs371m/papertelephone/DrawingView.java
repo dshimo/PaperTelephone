@@ -48,19 +48,19 @@ public class DrawingView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
-        if(timeLeft) {
+        if (timeLeft) {
             canvas.drawPath(drawPath, drawPaint);
         }
     }
 
     public void setPaintColor(int c) {
         paintColor = c;
-        if(timeLeft)
+        if (timeLeft)
             drawPaint.setColor(paintColor);
     }
 
     public void setBrushWidth(int w) {
-        if(timeLeft)
+        if (timeLeft)
             drawPaint.setStrokeWidth(w);
     }
 
@@ -90,7 +90,7 @@ public class DrawingView extends View {
             default:
                 return false;
         }
-        if(timeLeft)
+        if (timeLeft)
             invalidate();
         return true;
     }
