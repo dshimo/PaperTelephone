@@ -59,9 +59,17 @@ public class DrawingView extends View {
             drawPaint.setColor(paintColor);
     }
 
+    public int getPaintColor() {
+        return paintColor;
+    }
+
     public void setBrushWidth(int w) {
         if (timeLeft)
             drawPaint.setStrokeWidth(w);
+    }
+
+    public int getBrushWidth() {
+        return (int) drawPaint.getStrokeWidth();
     }
 
     public void setTimeLeft(boolean val) {

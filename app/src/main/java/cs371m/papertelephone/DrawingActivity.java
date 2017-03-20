@@ -30,6 +30,9 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
     private CountDownTimer timer;
     private TextView tView;
     private Button guessButton;
+    private boolean isErase;
+    private int oldPaintColor;
+    private int oldBrushWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                 word = hard[index - easy.length - medium.length];
             guessButton.setText(getString(R.string.draw_button, word));
         }
+        isErase = false;
         int countDownSeconds;
         if (MainActivity.drawCountdown == 0)
             countDownSeconds = 60;
@@ -109,6 +113,11 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         menu.findItem(R.id.colorpicker).setEnabled(dView.getTimeLeft());
         menu.findItem(R.id.brushsize).setEnabled(dView.getTimeLeft());
         menu.findItem(R.id.stopdrawing).setEnabled(dView.getTimeLeft());
+        if(isErase)
+            menu.findItem(R.id.erase).setIcon(R.drawable.nonerase);
+        else
+            menu.findItem(R.id.erase).setIcon(R.drawable.erasure);
+        menu.findItem(R.id.erase).setEnabled(dView.getTimeLeft());
         return true;
     }
 
@@ -148,6 +157,21 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                 guessButton.setEnabled(true);
                 dView.setTimeLeft(false);
                 invalidateOptionsMenu();
+                return true;
+            case R.id.erase:
+                if (!isErase) {
+                    oldPaintColor = dView.getPaintColor();
+                    oldBrushWidth = dView.getBrushWidth();
+                    dView.setPaintColor(Color.WHITE);
+                    dView.setBrushWidth(130);
+                    isErase = true;
+                    invalidateOptionsMenu();
+                } else {
+                    dView.setPaintColor(oldPaintColor);
+                    dView.setBrushWidth(oldBrushWidth);
+                    isErase = false;
+                    invalidateOptionsMenu();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

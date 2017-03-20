@@ -6,12 +6,17 @@
         android:id="@+id/colorpicker"
         android:title="@string/pick_color"
         android:icon="@drawable/colorpicker"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/brushsize"
         android:title="@string/change_brush_size"
         android:icon="@drawable/brush"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/erase"
+        android:title="@string/erase"
+        android:icon="@drawable/erasure"
+        app:showAsAction="always"/>
     <item
         android:id="@+id/stopdrawing"
         android:title="@string/stop_drawing"

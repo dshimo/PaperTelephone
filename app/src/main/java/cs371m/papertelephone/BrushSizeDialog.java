@@ -50,7 +50,7 @@ public class BrushSizeDialog extends Dialog{
                 dismiss();
             }
         });
-        sBar.setProgress(0);
+        cView.setRadius(act.dView.getBrushWidth()/2);
         sBar.setMax(150);
         sBar.setProgress(cView.getRadius()*2);
         brushText.setText(act.getString(R.string.brush_size_seek, cView.getRadius()*2));
