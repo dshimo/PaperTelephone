@@ -88,6 +88,9 @@ public class DrawingView extends View {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     drawPath.moveTo(touchX, touchY);
+                    drawPaint.setStyle(Paint.Style.FILL);
+                    drawCanvas.drawCircle(touchX,touchY,getBrushWidth()/2, drawPaint);
+                    drawPaint.setStyle(Paint.Style.STROKE);
                     break;
                 case MotionEvent.ACTION_MOVE:
                     drawPath.lineTo(touchX, touchY);
