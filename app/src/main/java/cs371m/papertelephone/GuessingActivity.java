@@ -28,6 +28,7 @@ public class GuessingActivity extends AppCompatActivity {
 
         loadImage();
 
+
     }
 
     private void loadImage() {

@@ -21,6 +21,7 @@ import com.jrummyapps.android.colorpicker.ColorPickerDialog;
 import com.jrummyapps.android.colorpicker.ColorPickerDialogListener;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Random;
 
 public class DrawingActivity extends AppCompatActivity implements ColorPickerDialogListener {
 
@@ -37,8 +38,21 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         dView = (DrawingView) findViewById(R.id.drawingcanvas);
         tView = (TextView) findViewById(R.id.timerText);
         guessButton = (Button) findViewById(R.id.guessbutton);
-        if (((TelephoneCounter) getApplicationContext()).counter == 1)
-            guessButton.setText(getString(R.string.draw_button, "any word/phrase"));
+        if (((TelephoneCounter) getApplicationContext()).counter == 1) {
+            Random rand = new Random();
+            String[] easy = getResources().getStringArray(R.array.easywords);
+            String[] medium = getResources().getStringArray(R.array.mediumwords);
+            String[] hard = getResources().getStringArray(R.array.hardwords);
+            int index = rand.nextInt(easy.length + medium.length + hard.length);
+            String word;
+            if (index < easy.length)
+                word = easy[index];
+            else if(index < (easy.length + medium.length))
+                word = medium[index - easy.length];
+            else
+                word = hard[index - easy.length - medium.length];
+            guessButton.setText(getString(R.string.draw_button, word));
+        }
         int countDownSeconds;
         if (MainActivity.drawCountdown == 0)
             countDownSeconds = 60;
@@ -77,6 +91,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
             Intent intent = new Intent(this, GuessingActivity.class);
             intent.putExtra("picture", byteArray);
             startActivity(intent);
+            finish();
         }
     }
 
