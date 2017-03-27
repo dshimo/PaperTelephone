@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/guess_input"
         android:layout_toLeftOf="@id/timerText"
+        android:onClick="guessButtonClicked"
         android:text="@string/guess_button"
         android:textSize="18sp" />
 

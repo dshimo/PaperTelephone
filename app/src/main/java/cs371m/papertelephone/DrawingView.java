@@ -84,12 +84,12 @@ public class DrawingView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         float touchX = event.getX();
         float touchY = event.getY();
-        if(timeLeft) {
+        if (timeLeft) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     drawPath.moveTo(touchX, touchY);
                     drawPaint.setStyle(Paint.Style.FILL);
-                    drawCanvas.drawCircle(touchX,touchY,getBrushWidth()/2, drawPaint);
+                    drawCanvas.drawCircle(touchX, touchY, getBrushWidth() / 2, drawPaint);
                     drawPaint.setStyle(Paint.Style.STROKE);
                     break;
                 case MotionEvent.ACTION_MOVE:

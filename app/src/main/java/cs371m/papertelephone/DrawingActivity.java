@@ -33,6 +33,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
     private boolean isErase;
     private int oldPaintColor;
     private int oldBrushWidth;
+    private int roundsLeft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,8 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         dView = (DrawingView) findViewById(R.id.drawingcanvas);
         tView = (TextView) findViewById(R.id.timerText);
         guessButton = (Button) findViewById(R.id.guessbutton);
+        roundsLeft = 2; // to be read from settings TODO
+
         if (((TelephoneCounter) getApplicationContext()).counter == 1) {
             Random rand = new Random();
             String[] easy = getResources().getStringArray(R.array.easywords);
@@ -50,12 +53,13 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
             String word;
             if (index < easy.length)
                 word = easy[index];
-            else if(index < (easy.length + medium.length))
+            else if (index < (easy.length + medium.length))
                 word = medium[index - easy.length];
             else
                 word = hard[index - easy.length - medium.length];
             guessButton.setText(getString(R.string.draw_button, word));
         }
+
         isErase = false;
         int countDownSeconds;
         if (MainActivity.drawCountdown == 0)
@@ -82,20 +86,30 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
     public void guessButtonClick(View view) {
         String str = String.valueOf(guessButton.getText());
         if (str.equals(getString(R.string.start_guessing))) {
-            ((TelephoneCounter) getApplicationContext()).counter += 1;
-            // Implement intent for guessing activity
-            // convert bitmap into byte array
-            dView.setDrawingCacheEnabled(true);
-            Bitmap bmp = dView.getDrawingCache();
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
+            // check if game over by rounds TODO
+            if (--roundsLeft == 0) {
+                // call up end-game activity (gallery?)
+            } else {
+                ((TelephoneCounter) getApplicationContext()).counter += 1;
 
-            // pass byte array into intent
-            Intent intent = new Intent(this, GuessingActivity.class);
-            intent.putExtra("picture", byteArray);
-            startActivity(intent);
-            finish();
+                // convert bitmap into byte array
+                dView.setDrawingCacheEnabled(true);
+                Bitmap bmp = dView.getDrawingCache();
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+
+                // pass byte array into intent
+                Intent intent = new Intent(this, GuessingActivity.class);
+//                intent.putExtra("pictures", this.getIntent().getExtras().getIntArray("pictures"));    // pass around collection of pictures instead TODO
+                intent.putExtra("picture", byteArray);
+                intent.putExtra("rounds", roundsLeft);
+                if (getIntent().getExtras() != null) {
+                    intent.putExtra("guesses", getIntent().getExtras().getStringArrayList("guesses"));
+                }
+                startActivity(intent);
+                finish();
+            }
         }
     }
 
@@ -113,7 +127,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         menu.findItem(R.id.colorpicker).setEnabled(dView.getTimeLeft());
         menu.findItem(R.id.brushsize).setEnabled(dView.getTimeLeft());
         menu.findItem(R.id.stopdrawing).setEnabled(dView.getTimeLeft());
-        if(isErase)
+        if (isErase)
             menu.findItem(R.id.erase).setIcon(R.drawable.nonerase);
         else
             menu.findItem(R.id.erase).setIcon(R.drawable.erasure);
