@@ -33,7 +33,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
     private boolean isErase;
     private int oldPaintColor;
     private int oldBrushWidth;
-    private int roundsLeft;
+    private int rounds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +42,9 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         dView = (DrawingView) findViewById(R.id.drawingcanvas);
         tView = (TextView) findViewById(R.id.timerText);
         guessButton = (Button) findViewById(R.id.guessbutton);
-        roundsLeft = 2; // to be read from settings TODO
+        rounds = MainActivity.rounds == 0 ? 3 : MainActivity.rounds;
 
-        if (((TelephoneCounter) getApplicationContext()).counter == 1) {
+        if (getTelephone().counter == 1) {
             Random rand = new Random();
             String[] easy = getResources().getStringArray(R.array.easywords);
             String[] medium = getResources().getStringArray(R.array.mediumwords);
@@ -58,6 +58,11 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
             else
                 word = hard[index - easy.length - medium.length];
             guessButton.setText(getString(R.string.draw_button, word));
+        } else {
+            guessButton.setText(R.string.start_drawing);
+            guessButton.setEnabled(true);
+            dView.setTimeLeft(false);
+            tView.setVisibility(View.GONE);
         }
 
         isErase = false;
@@ -80,17 +85,27 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                 guessButton.setEnabled(true);
                 invalidateOptionsMenu();
             }
-        }.start();
+        };
+        if (getTelephone().counter == 1)
+            timer.start();
     }
 
     public void guessButtonClick(View view) {
         String str = String.valueOf(guessButton.getText());
-        if (str.equals(getString(R.string.start_guessing))) {
+        if(str.equals(getString(R.string.start_drawing))) {
+            guessButton.setText(getString(R.string.draw_button, getTelephone().guess));
+            guessButton.setEnabled(false);
+            dView.setTimeLeft(true);
+            invalidateOptionsMenu();
+            tView.setVisibility(View.VISIBLE);
+            timer.start();
+        } else if (str.equals(getString(R.string.start_guessing))) {
             // check if game over by rounds TODO
-            if (--roundsLeft == 0) {
+            getTelephone().counter += 1;
+            if (getTelephone().counter > rounds) {
                 // call up end-game activity (gallery?)
             } else {
-                ((TelephoneCounter) getApplicationContext()).counter += 1;
+
 
                 // convert bitmap into byte array
                 dView.setDrawingCacheEnabled(true);
@@ -103,7 +118,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                 Intent intent = new Intent(this, GuessingActivity.class);
 //                intent.putExtra("pictures", this.getIntent().getExtras().getIntArray("pictures"));    // pass around collection of pictures instead TODO
                 intent.putExtra("picture", byteArray);
-                intent.putExtra("rounds", roundsLeft);
+//                intent.putExtra("rounds", roundsLeft);
                 if (getIntent().getExtras() != null) {
                     intent.putExtra("guesses", getIntent().getExtras().getStringArrayList("guesses"));
                 }
@@ -167,7 +182,10 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                 return true;
             case R.id.stopdrawing:
                 timer.cancel();
-                guessButton.setText(R.string.start_guessing);
+                if (getTelephone().counter == rounds)
+                    guessButton.setText(R.string.show_results);
+                else
+                    guessButton.setText(R.string.start_guessing);
                 guessButton.setEnabled(true);
                 dView.setTimeLeft(false);
                 invalidateOptionsMenu();
@@ -201,5 +219,9 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
     @Override
     public void onDialogDismissed(int dialogId) {
 
+    }
+
+    public TelephoneCounter getTelephone() {
+        return ((TelephoneCounter) getApplicationContext());
     }
 }

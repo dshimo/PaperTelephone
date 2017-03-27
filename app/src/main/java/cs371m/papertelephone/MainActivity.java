@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int SETTINGS_REQUEST = 1;
 
-    private static int rounds;
+    public static int rounds;
     public static int drawCountdown;
     private static int guessCountdown;
     public static boolean colorOn;

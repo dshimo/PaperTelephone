@@ -16,6 +16,7 @@
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/guess_button"
         android:hint="@string/guess_hint"
+        android:imeOptions="actionDone"
         android:inputType="text" />
 
     <Button

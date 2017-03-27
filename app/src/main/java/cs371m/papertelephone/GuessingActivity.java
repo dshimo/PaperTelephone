@@ -6,7 +6,9 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,7 +20,7 @@ public class GuessingActivity extends AppCompatActivity {
     private ImageView mGuessImageView;
     private CountDownTimer timer;
     private TextView mTimerTextView;
-    private int roundsLeft;
+    private int rounds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +29,21 @@ public class GuessingActivity extends AppCompatActivity {
 
         mTimerTextView = (TextView) findViewById(R.id.timerText);
         mGuessEditTextView = (EditText) findViewById(R.id.guess_input);
+        mGuessEditTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_DONE) {
+                    mGuessEditTextView.clearFocus();
+                    mGuessSubmitButton.requestFocus();
+//                    guessButtonClicked(null);
+                }
+                return false;
+            }
+        });
         mGuessSubmitButton = (Button) findViewById(R.id.guess_button);
         mGuessImageView = (ImageView) findViewById(R.id.guess_image_view);
 
-        roundsLeft = getIntent().getExtras().getInt("rounds");
+        rounds = MainActivity.rounds == 0 ? 3 : MainActivity.rounds;
 
         loadImage();
         loadTimer();
@@ -48,14 +61,14 @@ public class GuessingActivity extends AppCompatActivity {
 
     public void guessButtonClicked(View view) {
         String guessInput = mGuessEditTextView.getText().toString();
-
-        if (--roundsLeft == 0) {
+        getTelephone().guess = guessInput;
+        getTelephone().counter += 1;
+        if (getTelephone().counter > rounds) {
             // call up end-game activity (gallery?)
         } else {
             Intent intent = new Intent(this, DrawingActivity.class);
 //                intent.putExtra("pictures", this.getIntent().getExtras().getIntArray("pictures"));    // pass around collection of pictures instead TODO
             intent.putExtra("picture", getIntent().getExtras().getByteArray("picture"));
-            intent.putExtra("rounds", roundsLeft);
             if (getIntent().getExtras().getStringArrayList("guesses") != null) {
                 intent.putExtra("guesses", getIntent().getExtras().getStringArrayList("guesses").add(guessInput));
             }
@@ -84,5 +97,9 @@ public class GuessingActivity extends AppCompatActivity {
                 mTimerTextView.setText(getString(R.string._60, 0));
             }
         }.start();
+    }
+
+    public TelephoneCounter getTelephone() {
+        return ((TelephoneCounter) getApplicationContext());
     }
 }
