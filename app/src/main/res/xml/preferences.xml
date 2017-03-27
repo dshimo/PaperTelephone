@@ -4,7 +4,7 @@
     <EditTextPreference
         android:key="rounds"
         android:summary="How many players?"
-        android:defaultValue="5"
+        android:defaultValue="3"
         android:title="Number of Rounds" />
 
     <!--TODO: Edit summary to show time-->

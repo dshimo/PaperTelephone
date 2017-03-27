@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static int rounds;
     public static int drawCountdown;
-    private static int guessCountdown;
+    public static int guessCountdown;
     public static boolean colorOn;
 
     @Override

@@ -80,10 +80,10 @@ public class GuessingActivity extends AppCompatActivity {
     private void loadTimer() {
         int countDownSeconds;
 
-        if (MainActivity.drawCountdown == 0) {
-            countDownSeconds = 60;
+        if (MainActivity.guessCountdown == 0) {
+            countDownSeconds = 15;
         } else {
-            countDownSeconds = MainActivity.drawCountdown;
+            countDownSeconds = MainActivity.guessCountdown;
         }
 
         timer = new CountDownTimer(countDownSeconds * 1000, 1000) {
