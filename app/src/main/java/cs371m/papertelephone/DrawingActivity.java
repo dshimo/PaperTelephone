@@ -43,7 +43,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         tView = (TextView) findViewById(R.id.timerText);
         guessButton = (Button) findViewById(R.id.guessbutton);
         rounds = MainActivity.rounds == 0 ? 3 : MainActivity.rounds;
-
+        int countDownSeconds = MainActivity.drawCountdown == 0 ? 60 : MainActivity.drawCountdown;
         if (getTelephone().counter == 1) {
             Random rand = new Random();
             String[] easy = getResources().getStringArray(R.array.easywords);
@@ -62,15 +62,11 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
             guessButton.setText(R.string.start_drawing);
             guessButton.setEnabled(true);
             dView.setTimeLeft(false);
-            tView.setVisibility(View.GONE);
+            tView.setText(getString(R.string._60,countDownSeconds));
         }
 
         isErase = false;
-        int countDownSeconds;
-        if (MainActivity.drawCountdown == 0)
-            countDownSeconds = 60;
-        else
-            countDownSeconds = MainActivity.drawCountdown;
+
         timer = new CountDownTimer(countDownSeconds * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -97,7 +93,6 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
             guessButton.setEnabled(false);
             dView.setTimeLeft(true);
             invalidateOptionsMenu();
-            tView.setVisibility(View.VISIBLE);
             timer.start();
         } else if (str.equals(getString(R.string.start_guessing))) {
             // check if game over by rounds TODO
@@ -146,6 +141,8 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
             menu.findItem(R.id.erase).setIcon(R.drawable.nonerase);
         else
             menu.findItem(R.id.erase).setIcon(R.drawable.erasure);
+        if (isErase && dView.getTimeLeft())
+            menu.findItem(R.id.colorpicker).setEnabled(false);
         menu.findItem(R.id.erase).setEnabled(dView.getTimeLeft());
         return true;
     }
@@ -160,7 +157,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                             .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
                             .setAllowPresets(false)
                             .setDialogId(DIALOG_ID)
-                            .setColor(Color.BLACK)
+                            .setColor(dView.getPaintColor())
                             .setShowAlphaSlider(true)
                             .show(this);
                 else
@@ -169,7 +166,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                             .setAllowPresets(false)
                             .setAllowCustom(false)
                             .setDialogId(DIALOG_ID)
-                            .setColor(Color.BLACK)
+                            .setColor(dView.getPaintColor())
                             .setShowAlphaSlider(true)
                             .setPresets(new int[]{Color.BLACK, Color.GRAY, Color.WHITE})
                             .setShowColorShades(true)

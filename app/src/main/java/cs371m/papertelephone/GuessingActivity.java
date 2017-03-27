@@ -95,6 +95,7 @@ public class GuessingActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 mTimerTextView.setText(getString(R.string._60, 0));
+                guessButtonClicked(null);
             }
         }.start();
     }
