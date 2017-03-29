@@ -25,6 +25,10 @@ public class DrawingView extends View {
         setupView();
     }
 
+    /**
+     * Method based on instructions provided here:
+     * https://code.tutsplus.com/tutorials/android-sdk-create-a-drawing-app-touch-interaction--mobile-19202
+     */
     private void setupView() {
         drawPath = new Path();
         drawPaint = new Paint();
@@ -80,6 +84,10 @@ public class DrawingView extends View {
         return timeLeft;
     }
 
+    /**
+     * Method based on instructions provided here:
+     * https://code.tutsplus.com/tutorials/android-sdk-create-a-drawing-app-touch-interaction--mobile-19202
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float touchX = event.getX();
