@@ -31,6 +31,6 @@
     <string name="guess_button">Guess</string>
     <string name="guess_image_desc">Image to guess!</string>
     <string name="erase">Erase</string>
-    <string name="start_drawing">Start Drawing</string>
+    <string name="start_drawing">Start Drawing %1$s</string>
     <string name="show_results">Show Results</string>
 </resources>
