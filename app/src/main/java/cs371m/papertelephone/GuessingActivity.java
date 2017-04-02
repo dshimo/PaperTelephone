@@ -35,7 +35,7 @@ public class GuessingActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     mGuessEditTextView.clearFocus();
-//                    mGuessSubmitButton.requestFocus();
+                    mGuessSubmitButton.requestFocus();
 //                    guessButtonClicked(null);
                 }
                 return false;

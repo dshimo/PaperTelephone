@@ -35,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean("colorOn", colorOn);
+        editor.putString("drawCountdown", String.valueOf(drawCountdown));
+        editor.putString("rounds", String.valueOf(rounds));
+        editor.putString("guessCountdown", String.valueOf(guessCountdown));
 
         editor.apply();
     }
@@ -46,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
         colorOn = sharedPref.getBoolean("colorOn", true);
+        drawCountdown = Integer.parseInt(sharedPref.getString("drawCountdown", "60"));
+        rounds = Integer.parseInt(sharedPref.getString("rounds", "3"));
+        guessCountdown = Integer.parseInt(sharedPref.getString("guessCountdown", "15"));
     }
 
     @Override
@@ -55,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
             colorOn = sharedPref.getBoolean("colorOn", true);
             Log.d(TAG, "colorOn: " + colorOn);
             drawCountdown = Integer.parseInt(sharedPref.getString("drawCountdown", "60"));
+            rounds = Integer.parseInt(sharedPref.getString("rounds", "3"));
+            guessCountdown = Integer.parseInt(sharedPref.getString("guessCountdown", "15"));
         }
     }
 
