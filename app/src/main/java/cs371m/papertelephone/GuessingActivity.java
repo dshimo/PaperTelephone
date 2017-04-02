@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -34,7 +35,7 @@ public class GuessingActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     mGuessEditTextView.clearFocus();
-                    mGuessSubmitButton.requestFocus();
+//                    mGuessSubmitButton.requestFocus();
 //                    guessButtonClicked(null);
                 }
                 return false;
@@ -60,11 +61,15 @@ public class GuessingActivity extends AppCompatActivity {
     }
 
     public void guessButtonClicked(View view) {
+        timer.cancel();
         String guessInput = mGuessEditTextView.getText().toString();
         getTelephone().guess = guessInput;
         getTelephone().counter += 1;
 
         Intent intent;
+        Log.d("TAG", "Counter = " + getTelephone().counter);
+        if (getTelephone().counter == 4)
+            Log.d("STACKTRACE", Log.getStackTraceString(new Exception()));
         if (getTelephone().counter > numRounds) {
             intent = new Intent(this, ResultsActivity.class);
         } else {
