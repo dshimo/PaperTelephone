@@ -53,7 +53,7 @@ public class GuessingActivity extends AppCompatActivity {
     private void loadImage() {
         Bundle extras = getIntent().getExtras();
 //        byte[] byteArray = extras.getByteArray("picture");
-        byte[] byteArray = getTelephone().pictures.get(getTelephone().pictures.size()-1);
+        byte[] byteArray = getTelephone().pictures.get(getTelephone().pictures.size() - 1);
         Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
         ImageView image = (ImageView) findViewById(R.id.guess_image_view);
 
