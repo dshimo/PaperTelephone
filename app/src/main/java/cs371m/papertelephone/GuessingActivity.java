@@ -52,8 +52,8 @@ public class GuessingActivity extends AppCompatActivity {
 
     private void loadImage() {
         Bundle extras = getIntent().getExtras();
-        byte[] byteArray = extras.getByteArray("picture");
-
+//        byte[] byteArray = extras.getByteArray("picture");
+        byte[] byteArray = getTelephone().pictures.get(getTelephone().pictures.size()-1);
         Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
         ImageView image = (ImageView) findViewById(R.id.guess_image_view);
 
@@ -63,7 +63,7 @@ public class GuessingActivity extends AppCompatActivity {
     public void guessButtonClicked(View view) {
         timer.cancel();
         String guessInput = mGuessEditTextView.getText().toString();
-        getTelephone().guess = guessInput;
+        getTelephone().guesses.add(guessInput);
         getTelephone().counter += 1;
 
         Intent intent;
@@ -76,10 +76,10 @@ public class GuessingActivity extends AppCompatActivity {
             intent = new Intent(this, DrawingActivity.class);
         }
 //                intent.putExtra("pictures", this.getIntent().getExtras().getIntArray("pictures"));    // pass around collection of pictures instead TODO
-        intent.putExtra("picture", getIntent().getExtras().getByteArray("picture"));
-        if (getIntent().getExtras().getStringArrayList("guesses") != null) {
-            intent.putExtra("guesses", getIntent().getExtras().getStringArrayList("guesses").add(guessInput));
-        }
+//        intent.putExtra("picture", getIntent().getExtras().getByteArray("picture"));
+//        if (getIntent().getExtras().getStringArrayList("guesses") != null) {
+//            intent.putExtra("guesses", getIntent().getExtras().getStringArrayList("guesses").add(guessInput));
+//        }
         startActivity(intent);
         finish();
 

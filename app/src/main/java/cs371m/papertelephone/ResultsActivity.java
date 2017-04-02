@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * Created by siuau_000 on 4/1/2017.
@@ -26,11 +27,24 @@ public class ResultsActivity extends AppCompatActivity {
 
         // test
         LinearLayout linearLayout1 = (LinearLayout) findViewById(R.id.linearLayout1);
+        TextView initalText = new TextView(this);
+        initalText.setText(getTelephone().guesses.get(0));
+        linearLayout1.addView(initalText);
         for (int x = 0; x < numRounds; x++) {
-            ImageView image = new ImageView(ResultsActivity.this);
-            image = loadImageToView(image);
 
-            linearLayout1.addView(image);
+            if (x % 2 == 0) {
+                ImageView image = new ImageView(ResultsActivity.this);
+                byte[] byteArray = getTelephone().pictures.get(x/2);
+                Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                image.setImageBitmap(bmp);
+                linearLayout1.addView(image);
+            } else {
+                TextView text = new TextView(this);
+                text.setText(getTelephone().guesses.get(x/2 + 1));
+                linearLayout1.addView(text);
+            }
+
+
         }
 
     }
@@ -61,6 +75,10 @@ public class ResultsActivity extends AppCompatActivity {
             return image;
         }
         return (ImageView) view;
+    }
+
+    public TelephoneCounter getTelephone() {
+        return ((TelephoneCounter) getApplicationContext());
     }
 
 }

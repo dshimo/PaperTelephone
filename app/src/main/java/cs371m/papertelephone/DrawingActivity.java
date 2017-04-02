@@ -58,6 +58,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
             else
                 word = hard[index - easy.length - medium.length];
             guessButton.setText(getString(R.string.draw_button, word));
+            getTelephone().guesses.add(word);
         } else {
             guessButton.setText(R.string.start_drawing);
             guessButton.setEnabled(true);
@@ -92,7 +93,8 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
     public void guessButtonClick(View view) {
         String str = String.valueOf(guessButton.getText());
         if (str.equals(getString(R.string.start_drawing))) {
-            guessButton.setText(getString(R.string.draw_button, getTelephone().guess));
+            guessButton.setText(getString(R.string.draw_button,
+                    getTelephone().guesses.get(getTelephone().guesses.size()-1)));
             guessButton.setEnabled(false);
             dView.setTimeLeft(true);
             invalidateOptionsMenu();
@@ -108,7 +110,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] byteArray = stream.toByteArray();
-
+            getTelephone().pictures.add(byteArray);
             Intent intent;
             if (getTelephone().counter > numRounds) {
                 intent = new Intent(this, ResultsActivity.class);
@@ -116,15 +118,15 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                 intent = new Intent(this, GuessingActivity.class);
             }
 //                intent.putExtra("pictures", this.getIntent().getExtras().getIntArray("pictures"));    // pass around collection of pictures instead TODO
-            Log.d("counter", "" + getTelephone().counter);
-            if (getTelephone().counter == 2) {
-                intent.putExtra("picture", byteArray);
-            } else {
-                intent.putExtra("picture", getIntent().getExtras().getByteArray("picture"));
-            }
-            if (getIntent().getExtras() != null) {
-                intent.putExtra("guesses", getIntent().getExtras().getStringArrayList("guesses"));
-            }
+//            Log.d("counter", "" + getTelephone().counter);
+//            if (getTelephone().counter == 2) {
+//                intent.putExtra("picture", byteArray);
+//            } else {
+//                intent.putExtra("picture", getIntent().getExtras().getByteArray("picture"));
+//            }
+//            if (getIntent().getExtras() != null) {
+//                intent.putExtra("guesses", getIntent().getExtras().getStringArrayList("guesses"));
+//            }
             startActivity(intent);
             finish();
 
