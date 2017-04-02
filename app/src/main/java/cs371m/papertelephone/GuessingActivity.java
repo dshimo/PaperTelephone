@@ -20,7 +20,7 @@ public class GuessingActivity extends AppCompatActivity {
     private ImageView mGuessImageView;
     private CountDownTimer timer;
     private TextView mTimerTextView;
-    private int rounds;
+    private int numRounds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class GuessingActivity extends AppCompatActivity {
         mGuessEditTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_DONE) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
                     mGuessEditTextView.clearFocus();
                     mGuessSubmitButton.requestFocus();
 //                    guessButtonClicked(null);
@@ -43,7 +43,7 @@ public class GuessingActivity extends AppCompatActivity {
         mGuessSubmitButton = (Button) findViewById(R.id.guess_button);
         mGuessImageView = (ImageView) findViewById(R.id.guess_image_view);
 
-        rounds = MainActivity.rounds == 0 ? 3 : MainActivity.rounds;
+        numRounds = MainActivity.rounds == 0 ? 3 : MainActivity.rounds;
 
         loadImage();
         loadTimer();
@@ -63,18 +63,21 @@ public class GuessingActivity extends AppCompatActivity {
         String guessInput = mGuessEditTextView.getText().toString();
         getTelephone().guess = guessInput;
         getTelephone().counter += 1;
-        if (getTelephone().counter > rounds) {
-            // call up end-game activity (gallery?)
+
+        Intent intent;
+        if (getTelephone().counter > numRounds) {
+            intent = new Intent(this, ResultsActivity.class);
         } else {
-            Intent intent = new Intent(this, DrawingActivity.class);
-//                intent.putExtra("pictures", this.getIntent().getExtras().getIntArray("pictures"));    // pass around collection of pictures instead TODO
-            intent.putExtra("picture", getIntent().getExtras().getByteArray("picture"));
-            if (getIntent().getExtras().getStringArrayList("guesses") != null) {
-                intent.putExtra("guesses", getIntent().getExtras().getStringArrayList("guesses").add(guessInput));
-            }
-            startActivity(intent);
-            finish();
+            intent = new Intent(this, DrawingActivity.class);
         }
+//                intent.putExtra("pictures", this.getIntent().getExtras().getIntArray("pictures"));    // pass around collection of pictures instead TODO
+        intent.putExtra("picture", getIntent().getExtras().getByteArray("picture"));
+        if (getIntent().getExtras().getStringArrayList("guesses") != null) {
+            intent.putExtra("guesses", getIntent().getExtras().getStringArrayList("guesses").add(guessInput));
+        }
+        startActivity(intent);
+        finish();
+
     }
 
     private void loadTimer() {

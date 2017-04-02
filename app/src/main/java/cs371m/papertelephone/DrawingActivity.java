@@ -33,7 +33,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
     private boolean isErase;
     private int oldPaintColor;
     private int oldBrushWidth;
-    private int rounds;
+    private int numRounds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         dView = (DrawingView) findViewById(R.id.drawingcanvas);
         tView = (TextView) findViewById(R.id.timerText);
         guessButton = (Button) findViewById(R.id.guessbutton);
-        rounds = MainActivity.rounds == 0 ? 3 : MainActivity.rounds;
+        numRounds = MainActivity.rounds == 0 ? 3 : MainActivity.rounds;
         int countDownSeconds = MainActivity.drawCountdown == 0 ? 60 : MainActivity.drawCountdown;
         if (getTelephone().counter == 1) {
             Random rand = new Random();
@@ -62,7 +62,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
             guessButton.setText(R.string.start_drawing);
             guessButton.setEnabled(true);
             dView.setTimeLeft(false);
-            tView.setText(getString(R.string._60,countDownSeconds));
+            tView.setText(getString(R.string._60, countDownSeconds));
         }
 
         isErase = false;
@@ -88,7 +88,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
 
     public void guessButtonClick(View view) {
         String str = String.valueOf(guessButton.getText());
-        if(str.equals(getString(R.string.start_drawing))) {
+        if (str.equals(getString(R.string.start_drawing))) {
             guessButton.setText(getString(R.string.draw_button, getTelephone().guess));
             guessButton.setEnabled(false);
             dView.setTimeLeft(true);
@@ -97,7 +97,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         } else if (str.equals(getString(R.string.start_guessing))) {
             // check if game over by rounds TODO
             getTelephone().counter += 1;
-            if (getTelephone().counter > rounds) {
+            if (getTelephone().counter > numRounds) {
                 // call up end-game activity (gallery?)
             } else {
 
@@ -109,16 +109,35 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                 bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
 
-                // pass byte array into intent
-                Intent intent = new Intent(this, GuessingActivity.class);
+                Intent intent;
+                if (getTelephone().counter == numRounds) {
+                    intent = new Intent(this, ResultsActivity.class);
+                } else {
+                    intent = new Intent(this, GuessingActivity.class);
+                }
 //                intent.putExtra("pictures", this.getIntent().getExtras().getIntArray("pictures"));    // pass around collection of pictures instead TODO
-                intent.putExtra("picture", byteArray);
-//                intent.putExtra("rounds", roundsLeft);
+                Log.d("counter", "" + getTelephone().counter);
+                if (getTelephone().counter == 2) {
+                    intent.putExtra("picture", byteArray);
+                } else {
+                    intent.putExtra("picture", getIntent().getExtras().getByteArray("picture"));
+                }
                 if (getIntent().getExtras() != null) {
                     intent.putExtra("guesses", getIntent().getExtras().getStringArrayList("guesses"));
                 }
                 startActivity(intent);
                 finish();
+
+//                // pass byte array into intent
+//                Intent intent = new Intent(this, GuessingActivity.class);
+////                intent.putExtra("pictures", this.getIntent().getExtras().getIntArray("pictures"));    // pass around collection of pictures instead TODO
+//
+////                intent.putExtra("rounds", roundsLeft);
+//                if (getIntent().getExtras() != null) {
+//                    intent.putExtra("guesses", getIntent().getExtras().getStringArrayList("guesses"));
+//                }
+//                startActivity(intent);
+//                finish();
             }
         }
     }
@@ -179,7 +198,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                 return true;
             case R.id.stopdrawing:
                 timer.cancel();
-                if (getTelephone().counter == rounds)
+                if (getTelephone().counter == numRounds)
                     guessButton.setText(R.string.show_results);
                 else
                     guessButton.setText(R.string.start_guessing);
