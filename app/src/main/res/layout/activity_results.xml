@@ -5,61 +5,55 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<ScrollView-->
-    <!--android:id="@+id/scrollView1"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content">-->
-
-    <!--<LinearLayout-->
-    <!--android:id="@+id/linearLayout1"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:orientation="vertical" />-->
-    <!--</ScrollView>-->
-
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/guess_display"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:padding="10dp"
         android:text="@string/guess_display"
-        android:textColor="#ff7aff24"
-        android:textSize="35sp" />
+        android:textSize="30sp" />
 
     <ImageSwitcher
         android:id="@+id/imageSwitcher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/guess_display"
         android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:layout_marginTop="168dp" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:background="@android:drawable/bottom_bar"
         android:orientation="horizontal"
         android:paddingBottom="1.0dip"
         android:paddingLeft="4.0dip"
         android:paddingRight="4.0dip"
-        android:paddingTop="5.0dip"
-        android:layout_alignParentBottom="true">
+        android:paddingTop="5.0dip">
 
         <Button
             android:id="@+id/prevButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/previous_prompt"
-            android:layout_weight="1.0"/>
+            android:layout_weight="1.0"
+            android:text="@string/previous_prompt" />
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:text="@string/save_prompt" />
 
         <Button
             android:id="@+id/nextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/next_prompt"
-            android:layout_weight="1.0"/>
+            android:layout_weight="1.0"
+            android:text="@string/next_prompt" />
 
     </LinearLayout>
-
-
 </RelativeLayout>

@@ -18,7 +18,6 @@ import android.widget.TextView;
 public class GuessingActivity extends AppCompatActivity {
     private EditText mGuessEditTextView;
     private Button mGuessSubmitButton;
-    private ImageView mGuessImageView;
     private CountDownTimer timer;
     private TextView mTimerTextView;
     private int numRounds;
@@ -36,13 +35,11 @@ public class GuessingActivity extends AppCompatActivity {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     mGuessEditTextView.clearFocus();
                     mGuessSubmitButton.requestFocus();
-//                    guessButtonClicked(null);
                 }
                 return false;
             }
         });
         mGuessSubmitButton = (Button) findViewById(R.id.guess_button);
-        mGuessImageView = (ImageView) findViewById(R.id.guess_image_view);
 
         numRounds = MainActivity.rounds == 0 ? 3 : MainActivity.rounds;
 
@@ -51,8 +48,6 @@ public class GuessingActivity extends AppCompatActivity {
     }
 
     private void loadImage() {
-        Bundle extras = getIntent().getExtras();
-//        byte[] byteArray = extras.getByteArray("picture");
         byte[] byteArray = getTelephone().pictures.get(getTelephone().pictures.size() - 1);
         Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
         ImageView image = (ImageView) findViewById(R.id.guess_image_view);
@@ -75,14 +70,9 @@ public class GuessingActivity extends AppCompatActivity {
         } else {
             intent = new Intent(this, DrawingActivity.class);
         }
-//                intent.putExtra("pictures", this.getIntent().getExtras().getIntArray("pictures"));    // pass around collection of pictures instead TODO
-//        intent.putExtra("picture", getIntent().getExtras().getByteArray("picture"));
-//        if (getIntent().getExtras().getStringArrayList("guesses") != null) {
-//            intent.putExtra("guesses", getIntent().getExtras().getStringArrayList("guesses").add(guessInput));
-//        }
+
         startActivity(intent);
         finish();
-
     }
 
     private void loadTimer() {

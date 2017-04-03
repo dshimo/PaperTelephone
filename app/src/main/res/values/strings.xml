@@ -38,4 +38,5 @@
     <string name="guess_display">guess_display</string>
     <string name="previous_prompt">previous</string>
     <string name="next_prompt">next</string>
+    <string name="save_prompt">save</string>
 </resources>
