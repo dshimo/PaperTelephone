@@ -6,23 +6,24 @@
         android:summary="How many players?"
         android:defaultValue="3"
         android:title="Number of Rounds"
-        android:inputType="numberSigned"/>
+        android:inputType="numberSigned"
+        android:selectAllOnFocus="true"/>
 
-    <!--TODO: Edit summary to show time-->
     <EditTextPreference
         android:key="drawCountdown"
         android:summary="Time to draw (seconds)"
         android:defaultValue="60"
         android:title="Drawing Time"
-        android:inputType="numberSigned"/>
+        android:inputType="numberSigned"
+        android:selectAllOnFocus="true"/>
 
-    <!--TODO: Edit summary to show time-->
     <EditTextPreference
         android:key="guessCountdown"
         android:summary="Time to guess (seconds)"
         android:defaultValue="15"
         android:title="Time to guess"
-        android:inputType="numberSigned"/>
+        android:inputType="numberSigned"
+        android:selectAllOnFocus="true"/>
 
     <!--TODO: Edit summary for when checked or not checked-->
     <CheckBoxPreference
