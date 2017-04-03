@@ -34,6 +34,12 @@ public class PreferencesActivity extends AppCompatActivity {
             // handle rounds summary and listener
             roundsListener();
             updateRoundsSummary();
+
+            // handle timer summaries and listeners
+            drawTimeListener();
+            updateDrawTimeSummary();
+            guessTimeListener();
+            updateGuessTimeSummary();
         }
 
         private void roundsListener() {
@@ -59,6 +65,56 @@ public class PreferencesActivity extends AppCompatActivity {
             String roundsSummary = "Number of Rounds: " + sharedPrefs.getString("rounds", "3");
             Preference roundsPref = findPreference("rounds");
             roundsPref.setSummary(roundsSummary);
+        }
+
+        private void drawTimeListener() {
+            final Preference drawTimePref = findPreference("drawCountdown");
+            drawTimePref.setOnPreferenceChangeListener(
+                    new Preference.OnPreferenceChangeListener() {
+
+                        @Override
+                        public boolean onPreferenceChange(Preference preference, Object newValue) {
+                            String drawTimeSummary = "Time to Draw | Currently " + newValue + " seconds";
+                            drawTimePref.setSummary(drawTimeSummary);
+
+                            SharedPreferences.Editor editor = sharedPrefs.edit();
+                            editor.putString("drawCountdown", newValue.toString());
+                            editor.apply();
+                            return true;
+                        }
+                    }
+            );
+        }
+
+        private void updateDrawTimeSummary() {
+            String drawTimeSummary = "Time to Draw | Currently " + sharedPrefs.getString("drawCountdown", "60") + " seconds";
+            Preference drawTimePref = findPreference("drawCountdown");
+            drawTimePref.setSummary(drawTimeSummary);
+        }
+
+        private void guessTimeListener() {
+            final Preference guessTimePref = findPreference("guessCountdown");
+            guessTimePref.setOnPreferenceChangeListener(
+                    new Preference.OnPreferenceChangeListener() {
+
+                        @Override
+                        public boolean onPreferenceChange(Preference preference, Object newValue) {
+                            String guessTimeSummary = "Time to Guess | Currently " + newValue + " seconds";
+                            guessTimePref.setSummary(guessTimeSummary);
+
+                            SharedPreferences.Editor editor = sharedPrefs.edit();
+                            editor.putString("guessCountdown", newValue.toString());
+                            editor.apply();
+                            return true;
+                        }
+                    }
+            );
+        }
+
+        private void updateGuessTimeSummary() {
+            String guessTimeSummary = "Time to Guess | Currently " + sharedPrefs.getString("guessCountdown", "15") + " seconds";
+            Preference guessTimePref = findPreference("guessCountdown");
+            guessTimePref.setSummary(guessTimeSummary);
         }
     }
 
