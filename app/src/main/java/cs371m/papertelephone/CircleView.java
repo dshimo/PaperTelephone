@@ -18,7 +18,7 @@ public class CircleView extends View {
         super(context, attrs);
         radius = 10;
         mPaint = new Paint();
-        mPaint.setAntiAlias(false);
+        mPaint.setAntiAlias(true);
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setColor(Color.BLACK);
     }
