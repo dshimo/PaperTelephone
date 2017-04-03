@@ -57,9 +57,10 @@ public class ResultsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (currentImageIndex >= 1) {
-//                    Toast.makeText(getApplicationContext(), "Previous Image",
-//                            Toast.LENGTH_LONG).show();
-                    byte[] byteArray = getTelephone().pictures.get(--currentImageIndex);
+                    --currentImageIndex;
+                   Toast.makeText(getApplicationContext(), "Round " + currentImageIndex + 1,
+                           Toast.LENGTH_LONG).show();
+                    byte[] byteArray = getTelephone().pictures.get(currentImageIndex);
                     Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
                     imageSwitcher.setImageDrawable(new BitmapDrawable(getResources(), bmp));
                     updateGuess();
@@ -71,9 +72,10 @@ public class ResultsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (currentImageIndex < getTelephone().pictures.size() - 1) {
-//                    Toast.makeText(getApplicationContext(), "Next Image",
-//                            Toast.LENGTH_LONG).show();
-                    byte[] byteArray = getTelephone().pictures.get(++currentImageIndex);
+                    ++currentImageIndex;
+                   Toast.makeText(getApplicationContext(), "Round " + currentImageIndex + 1,
+                           Toast.LENGTH_LONG).show();
+                    byte[] byteArray = getTelephone().pictures.get(currentImageIndex);
                     Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
                     imageSwitcher.setImageDrawable(new BitmapDrawable(getResources(), bmp));
                     updateGuess();
@@ -91,6 +93,7 @@ public class ResultsActivity extends AppCompatActivity {
         });
 
         imageSwitcher.setImageDrawable(new BitmapDrawable(getResources(), bmp));
+        updateGuess();
     }
 
     private void updateGuess() {
