@@ -25,7 +25,6 @@
         android:inputType="numberSigned"
         android:selectAllOnFocus="true"/>
 
-    <!--TODO: Edit summary for when checked or not checked-->
     <CheckBoxPreference
         android:key="colorOn"
         android:summary="Color on or color off"

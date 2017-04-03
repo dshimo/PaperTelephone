@@ -5,8 +5,12 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+
+import java.util.prefs.Preferences;
 
 public class PreferencesActivity extends AppCompatActivity {
+    static final String TAG = "PreferencesActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +35,19 @@ public class PreferencesActivity extends AppCompatActivity {
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.preferences);
 
-            // handle rounds summary and listener
+            // handle rounds listener and summary
             roundsListener();
             updateRoundsSummary();
 
-            // handle timer summaries and listeners
+            // handle timer listeners and summaries
             drawTimeListener();
             updateDrawTimeSummary();
             guessTimeListener();
             updateGuessTimeSummary();
+
+            // handle color listener and summary
+            colorTimeListener();
+            updateColorSummary();
         }
 
         private void roundsListener() {
@@ -115,6 +123,30 @@ public class PreferencesActivity extends AppCompatActivity {
             String guessTimeSummary = "Time to Guess | Currently " + sharedPrefs.getString("guessCountdown", "15") + " seconds";
             Preference guessTimePref = findPreference("guessCountdown");
             guessTimePref.setSummary(guessTimeSummary);
+        }
+
+        private void colorTimeListener() {
+            final Preference colorPref = findPreference("colorOn");
+            colorPref.setOnPreferenceChangeListener(
+                    new Preference.OnPreferenceChangeListener() {
+
+                        @Override
+                        public boolean onPreferenceChange(Preference preference, Object newValue) {
+                            Log.d(TAG, "New value is " + newValue.toString());
+                            String toggle = ((boolean) newValue) ? "on" : "off";
+                            String colorSummary = "Color is now " + toggle;
+                            colorPref.setSummary(colorSummary);
+                            return true;
+                        }
+                    }
+            );
+        }
+
+        private void updateColorSummary() {
+            String toggle = (sharedPrefs.getBoolean("colorOn", true)) ? "on" : "off";
+            String colorSummary = "Color is now " + toggle;
+            Preference colorPref = findPreference("colorOn");
+            colorPref.setSummary(colorSummary);
         }
     }
 
