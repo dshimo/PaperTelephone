@@ -60,8 +60,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
             guessButton.setText(getString(R.string.draw_button, word));
             getTelephone().guesses.add(word);
         } else {
-            guessButton.setText(getString(R.string.start_drawing,
-                    getTelephone().guesses.get(getTelephone().guesses.size()-1)));
+            guessButton.setText(R.string.start_drawing);
             guessButton.setEnabled(true);
             dView.setTimeLeft(false);
             tView.setText(getString(R.string._60, countDownSeconds));
@@ -83,6 +82,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                     guessButton.setText(R.string.show_results);
                 else
                     guessButton.setText(R.string.start_guessing);
+                dView.setVisibility(View.GONE);
                 guessButton.setEnabled(true);
                 invalidateOptionsMenu();
             }
@@ -206,6 +206,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                     guessButton.setText(R.string.start_guessing);
                 guessButton.setEnabled(true);
                 dView.setTimeLeft(false);
+                dView.setVisibility(View.GONE);
                 invalidateOptionsMenu();
                 return true;
             case R.id.erase:
