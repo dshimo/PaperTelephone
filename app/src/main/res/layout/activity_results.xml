@@ -21,7 +21,7 @@
         android:layout_below="@+id/guess_display"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginTop="168dp" />
+        android:layout_margin="10dp" />
 
     <LinearLayout
         android:layout_width="fill_parent"

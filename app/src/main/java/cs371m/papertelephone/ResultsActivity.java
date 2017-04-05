@@ -58,8 +58,8 @@ public class ResultsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (currentImageIndex >= 1) {
                     --currentImageIndex;
-                   Toast.makeText(getApplicationContext(), "Round " + currentImageIndex + 1,
-                           Toast.LENGTH_LONG).show();
+//                   Toast.makeText(getApplicationContext(), "Round " + currentImageIndex + 1,
+//                           Toast.LENGTH_LONG).show();
                     byte[] byteArray = getTelephone().pictures.get(currentImageIndex);
                     Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
                     imageSwitcher.setImageDrawable(new BitmapDrawable(getResources(), bmp));
@@ -73,8 +73,8 @@ public class ResultsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (currentImageIndex < getTelephone().pictures.size() - 1) {
                     ++currentImageIndex;
-                   Toast.makeText(getApplicationContext(), "Round " + currentImageIndex + 1,
-                           Toast.LENGTH_LONG).show();
+//                   Toast.makeText(getApplicationContext(), "Round " + currentImageIndex + 1,
+//                           Toast.LENGTH_LONG).show();
                     byte[] byteArray = getTelephone().pictures.get(currentImageIndex);
                     Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
                     imageSwitcher.setImageDrawable(new BitmapDrawable(getResources(), bmp));
