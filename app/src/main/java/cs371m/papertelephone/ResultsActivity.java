@@ -72,18 +72,17 @@ public class ResultsActivity extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Round " + currentImageIndex,
-                        Toast.LENGTH_SHORT).show();
-                if (currentImageIndex < getTelephone().pictures.size()-1) {
+//                Toast.makeText(getApplicationContext(), "Round " + currentImageIndex,
+//                        Toast.LENGTH_SHORT).show();
+                if (currentImageIndex < getTelephone().pictures.size() - 1) {
                     ++currentImageIndex;
-                   Toast.makeText(getApplicationContext(), "Round " + currentImageIndex + 1,
-                           Toast.LENGTH_LONG).show();
+//                   Toast.makeText(getApplicationContext(), "Round " + currentImageIndex + 1,
+//                           Toast.LENGTH_LONG).show();
                     byte[] byteArray = getTelephone().pictures.get(currentImageIndex);
                     Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
                     imageSwitcher.setImageDrawable(new BitmapDrawable(getResources(), bmp));
                     updateGuess();
-
-                } else if(currentImageIndex < getTelephone().guesses.size() - 1) {
+                } else if (currentImageIndex < getTelephone().guesses.size() - 1) {
                     ++currentImageIndex;
                     imageSwitcher.setVisibility(View.GONE);
                     updateGuess();
