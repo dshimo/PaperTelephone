@@ -12,43 +12,62 @@
     android:paddingTop="5dp"
     tools:context="cs371m.papertelephone.DrawingActivity">
 
+
+
+
+    <TextView
+        android:id="@+id/guessbutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="false"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:textColor="@color/black"
+        android:layout_marginRight="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:enabled="false"
+        android:text="@string/draw_button"
+        android:textSize="30sp" />
     <cs371m.papertelephone.DrawingView
         android:id="@+id/drawingcanvas"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/timerText"
+        android:layout_below="@id/guessbutton"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
         android:layout_centerVertical="true"
         android:layout_marginTop="5dp"
         android:background="#FFFFFFFF"
         android:textAlignment="center" />
-
-    <TextView
-        android:id="@+id/timerText"
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/time_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:text="@string/_60"
-        android:textColor="@color/black"
-        android:textSize="30sp" />
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="4dp"
+        android:src="@drawable/timer_off"
+        app:fab_label="@string/stop_drawing"
+        app:fab_progress="100"
+        app:fab_progress_max="100"
+        app:fab_progress_color="@color/orange"
+        />
 
-    <TextView
-        android:id="@+id/guessbutton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/timerText"
-        android:layout_centerHorizontal="false"
-        android:layout_centerInParent="true"
-        android:layout_centerVertical="true"
-        android:textColor="@color/black"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@id/timerText"
-        android:enabled="false"
-        android:text="@string/draw_button"
-        android:textSize="30sp" />
+
+    <!--<TextView-->
+        <!--android:id="@+id/timerText"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:text="@string/_60"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="30sp" />-->
+
+
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/drawing_buttons"
@@ -96,19 +115,6 @@
             android:layout_marginBottom="16dp"/>
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
-    <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/time_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|left"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="4dp"
-        android:layout_marginLeft="4dp"
-        android:src="@drawable/timer_off"
-        app:fab_label="@string/stop_drawing"
-        app:fab_progress="100"
-        app:fab_progress_max="100"
-        app:fab_progress_color="@color/orange"
-        />
+
 </RelativeLayout>
 

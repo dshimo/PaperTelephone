@@ -9,6 +9,8 @@ import android.os.CountDownTimer;
 import android.support.annotation.ColorInt;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+
+import android.support.v4.graphics.ColorUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,7 +33,6 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
     public DrawingView dView;
     private static final int DIALOG_ID = 0;
     private CountDownTimer timer;
-    private TextView tView;
     private TextView guessButton;
     private boolean isErase;
     private int oldPaintColor;
@@ -42,13 +43,18 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
     private boolean calledPause;
     private FloatingActionsMenu fabMenu;
     private com.github.clans.fab.FloatingActionButton timer_button;
+    private float[] greenHSL, redHSL, outHSL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawing);
+        greenHSL = new float[3];
+        redHSL = new float[3];
+        outHSL = new float[3];
+        ColorUtils.colorToHSL(getResources().getColor(R.color.green), greenHSL);
+        ColorUtils.colorToHSL(getResources().getColor(R.color.red), redHSL);
         dView = (DrawingView) findViewById(R.id.drawingcanvas);
-        tView = (TextView) findViewById(R.id.timerText);
         guessButton = (TextView) findViewById(R.id.guessbutton);
         numRounds = MainActivity.rounds == 0 ? 3 : MainActivity.rounds;
         countDownSeconds = MainActivity.drawCountdown == 0 ? 60 : MainActivity.drawCountdown;
@@ -80,11 +86,12 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
             guessButton.setEnabled(true);
             dView.setTimeLeft(false);
             roundStart = true;
-            tView.setText(getString(R.string._60, countDownSeconds));
             timer_button.setImageResource(R.drawable.check);
             timer_button.setColorNormalResId(R.color.green);
             timer_button.setLabelText("Press to Continue");
             timer_button.setShowProgressBackground(false);
+            timer_button.setProgress(0,false);
+            dView.setVisibility(View.GONE);
             timer_button.hideProgress();
         }
         timer_button.setMax(countDownSeconds);
@@ -170,6 +177,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                     timer.start();
                     dView.setTimeLeft(true);
                     fabMenu.setVisibility(View.VISIBLE);
+                    dView.setVisibility(View.VISIBLE);
                     Log.d("DrawingActivity", "Counter = " + getTelephone().counter);
                     guessButton.setText(getString(R.string.draw_button,getTelephone().guesses.get(getTelephone().counter/2)));
                 }
@@ -277,14 +285,17 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
             timer = new CountDownTimer(getTelephone().secondsRemaining * 1000, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    tView.setText(getString(R.string._60, (int) (millisUntilFinished / 1000)));
                     getTelephone().secondsRemaining = (int) millisUntilFinished / 1000;
                     timer_button.setProgress(getTelephone().secondsRemaining, true);
+                    ColorUtils.blendHSL(redHSL, greenHSL,
+                            ((float) getTelephone().secondsRemaining)/countDownSeconds, outHSL);
+
+                    int newcolor = ColorUtils.HSLToColor(outHSL);
+                    timer_button.setColorNormal(newcolor);
                 }
 
                 @Override
                 public void onFinish() {
-                    tView.setText(getString(R.string._60, 0));
                     dView.setTimeLeft(false);
                     fabMenu.setVisibility(View.GONE);
                     timer_button.hideProgress();
