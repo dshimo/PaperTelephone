@@ -66,26 +66,31 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        super.onCreateOptionsMenu(menu);
+//
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.action_bar, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        FragmentManager fm = getFragmentManager();
+//        switch (item.getItemId()) {
+//            case R.id.settings:
+//                Intent intent = new Intent(this, PreferencesActivity.class);
+//                startActivityForResult(intent, SETTINGS_REQUEST);
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.action_bar, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        FragmentManager fm = getFragmentManager();
-        switch (item.getItemId()) {
-            case R.id.settings:
-                Intent intent = new Intent(this, PreferencesActivity.class);
-                startActivityForResult(intent, SETTINGS_REQUEST);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    public void startSettings(View view) {
+        Intent intent = new Intent(this, PreferencesActivity.class);
+        startActivityForResult(intent, SETTINGS_REQUEST);
     }
 
     public void startHowTo(View view) {

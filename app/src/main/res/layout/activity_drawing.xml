@@ -18,8 +18,12 @@
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/timerText"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
         android:layout_marginTop="5dp"
-        android:background="#FFFFFFFF" />
+        android:background="#FFFFFFFF"
+        android:textAlignment="center" />
 
     <TextView
         android:id="@+id/timerText"
@@ -28,18 +32,83 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:text="@string/_60"
+        android:textColor="@color/black"
         android:textSize="30sp" />
 
-    <Button
+    <TextView
         android:id="@+id/guessbutton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/timerText"
+        android:layout_centerHorizontal="false"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:textColor="@color/black"
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@id/timerText"
         android:enabled="false"
-        android:onClick="guessButtonClick"
         android:text="@string/draw_button"
-        android:textSize="18sp" />
+        android:textSize="30sp" />
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/drawing_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        app:fab_addButtonColorNormal="@color/colorAccent"
+        app:fab_labelStyle="@style/menu_labels_style"
+        app:fab_labelsPosition="left">
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/color_picker_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_icon="@drawable/colorpicker"
+            app:fab_colorNormal="@color/colorPrimary"
+            app:fab_size="mini"
+            app:fab_title="@string/pick_color"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"/>
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/brush_size_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_icon="@drawable/brush_size"
+            app:fab_colorNormal="@color/colorPrimary"
+            app:fab_size="mini"
+            app:fab_title="@string/brush_size"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"/>
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/erase_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_icon="@drawable/eraser"
+            app:fab_colorNormal="@color/colorPrimary"
+            app:fab_size="mini"
+            app:fab_title="@string/erase"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"/>
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/time_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:src="@drawable/timer_off"
+        app:fab_label="@string/stop_drawing"
+        app:fab_progress="100"
+        app:fab_progress_max="100"
+        app:fab_progress_color="@color/orange"
+        />
 </RelativeLayout>
 

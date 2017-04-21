@@ -28,4 +28,6 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.jrummyapps:colorpicker:2.1.6'
     testCompile 'junit:junit:4.12'
+    compile 'com.getbase:floatingactionbutton:1.10.1'
+    compile 'com.github.clans:fab:1.6.4'
 }

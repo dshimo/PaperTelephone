@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawing_bar"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/colorpicker"
         android:title="@string/pick_color"
-        android:icon="@drawable/colorpicker"
-        app:showAsAction="always" />
+        android:icon="@drawable/colorpicker" />
     <item
         android:id="@+id/brushsize"
         android:title="@string/change_brush_size"
-        android:icon="@drawable/brush"
-        app:showAsAction="always"/>
+        android:icon="@drawable/brush_size" />
     <item
         android:id="@+id/erase"
         android:title="@string/erase"
-        android:icon="@drawable/erasure"
-        app:showAsAction="always"/>
+        android:icon="@drawable/eraser" />
     <item
         android:id="@+id/stopdrawing"
         android:title="@string/stop_drawing"
-        android:icon="@drawable/timeroff"
-        app:showAsAction="ifRoom"/>
+        android:icon="@drawable/timer_off" />
 </menu>
