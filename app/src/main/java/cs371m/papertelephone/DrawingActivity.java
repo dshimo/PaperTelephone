@@ -34,6 +34,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
     private int oldPaintColor;
     private int oldBrushWidth;
     private int numRounds;
+    private boolean calledPause;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,8 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         guessButton = (Button) findViewById(R.id.guessbutton);
         numRounds = MainActivity.rounds == 0 ? 3 : MainActivity.rounds;
         int countDownSeconds = MainActivity.drawCountdown == 0 ? 60 : MainActivity.drawCountdown;
+        getTelephone().secondsRemaining = countDownSeconds;
+        calledPause = false;
         if (getTelephone().counter == 1) {
             Random rand = new Random();
             String[] easy = getResources().getStringArray(R.array.easywords);
@@ -67,28 +70,6 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         }
 
         isErase = false;
-
-        timer = new CountDownTimer(countDownSeconds * 1000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                tView.setText(getString(R.string._60, (int) (millisUntilFinished / 1000)));
-            }
-
-            @Override
-            public void onFinish() {
-                tView.setText(getString(R.string._60, 0));
-                dView.setTimeLeft(false);
-                if (getTelephone().counter == numRounds)
-                    guessButton.setText(R.string.show_results);
-                else
-                    guessButton.setText(R.string.start_guessing);
-                dView.setVisibility(View.GONE);
-                guessButton.setEnabled(true);
-                invalidateOptionsMenu();
-            }
-        };
-        if (getTelephone().counter == 1)
-            timer.start();
     }
 
     public void guessButtonClick(View view) {
@@ -101,7 +82,6 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
             invalidateOptionsMenu();
             timer.start();
         } else {
-            // check if game over by rounds TODO
             getTelephone().counter += 1;
 
 
@@ -118,29 +98,8 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
             } else {
                 intent = new Intent(this, GuessingActivity.class);
             }
-//                intent.putExtra("pictures", this.getIntent().getExtras().getIntArray("pictures"));    // pass around collection of pictures instead TODO
-//            Log.d("counter", "" + getTelephone().counter);
-//            if (getTelephone().counter == 2) {
-//                intent.putExtra("picture", byteArray);
-//            } else {
-//                intent.putExtra("picture", getIntent().getExtras().getByteArray("picture"));
-//            }
-//            if (getIntent().getExtras() != null) {
-//                intent.putExtra("guesses", getIntent().getExtras().getStringArrayList("guesses"));
-//            }
             startActivity(intent);
             finish();
-
-//                // pass byte array into intent
-//                Intent intent = new Intent(this, GuessingActivity.class);
-////                intent.putExtra("pictures", this.getIntent().getExtras().getIntArray("pictures"));    // pass around collection of pictures instead TODO
-//
-////                intent.putExtra("rounds", roundsLeft);
-//                if (getIntent().getExtras() != null) {
-//                    intent.putExtra("guesses", getIntent().getExtras().getStringArrayList("guesses"));
-//                }
-//                startActivity(intent);
-//                finish();
         }
     }
 
@@ -166,6 +125,38 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
             menu.findItem(R.id.colorpicker).setEnabled(false);
         menu.findItem(R.id.erase).setEnabled(dView.getTimeLeft());
         return true;
+    }
+
+    public void onPause() {
+        super.onPause();
+        calledPause = true;
+        timer.cancel();
+    }
+
+    public void onResume() {
+        super.onResume();
+        timer = new CountDownTimer(getTelephone().secondsRemaining * 1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                tView.setText(getString(R.string._60, (int) (millisUntilFinished / 1000)));
+                getTelephone().secondsRemaining = (int) millisUntilFinished/1000;
+            }
+
+            @Override
+            public void onFinish() {
+                tView.setText(getString(R.string._60, 0));
+                dView.setTimeLeft(false);
+                if (getTelephone().counter == numRounds)
+                    guessButton.setText(R.string.show_results);
+                else
+                    guessButton.setText(R.string.start_guessing);
+                dView.setVisibility(View.GONE);
+                guessButton.setEnabled(true);
+                invalidateOptionsMenu();
+            }
+        };
+        if (getTelephone().counter == 1 || calledPause)
+            timer.start();
     }
 
     @Override

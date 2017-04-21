@@ -42,9 +42,9 @@ public class GuessingActivity extends AppCompatActivity {
         mGuessSubmitButton = (Button) findViewById(R.id.guess_button);
 
         numRounds = MainActivity.rounds == 0 ? 3 : MainActivity.rounds;
-
+        int countDownSeconds = MainActivity.guessCountdown == 0 ? 15 : MainActivity.guessCountdown;
+        getTelephone().secondsRemaining = countDownSeconds;
         loadImage();
-        loadTimer();
     }
 
     private void loadImage() {
@@ -75,19 +75,18 @@ public class GuessingActivity extends AppCompatActivity {
         finish();
     }
 
-    private void loadTimer() {
-        int countDownSeconds;
+    public void onPause() {
+        super.onPause();
+        timer.cancel();
+    }
 
-        if (MainActivity.guessCountdown == 0) {
-            countDownSeconds = 15;
-        } else {
-            countDownSeconds = MainActivity.guessCountdown;
-        }
-
-        timer = new CountDownTimer(countDownSeconds * 1000, 1000) {
+    public void onResume() {
+        super.onResume();
+        timer = new CountDownTimer(getTelephone().secondsRemaining * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mTimerTextView.setText(getString(R.string._60, (int) (millisUntilFinished / 1000)));
+                getTelephone().secondsRemaining = (int) millisUntilFinished/1000;
             }
 
             @Override
