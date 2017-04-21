@@ -65,6 +65,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         final FloatingActionButton brushSize = (FloatingActionButton) findViewById(R.id.brush_size_button);
         final FloatingActionButton erase = (FloatingActionButton) findViewById(R.id.erase_button);
         timer_button = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.time_button);
+        timer_button.bringToFront();
         if (getTelephone().counter == 1) {
             Random rand = new Random();
             String[] easy = getResources().getStringArray(R.array.easywords);
