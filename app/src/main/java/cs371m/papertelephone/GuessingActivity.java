@@ -3,6 +3,7 @@ package cs371m.papertelephone;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +14,10 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.rd.PageIndicatorView;
 
 public class GuessingActivity extends AppCompatActivity {
     private EditText mGuessEditTextView;
@@ -21,6 +25,8 @@ public class GuessingActivity extends AppCompatActivity {
     private CountDownTimer timer;
     private TextView mTimerTextView;
     private int numRounds;
+    private PageIndicatorView pageIndicator;
+    private TextView pageNumberView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +48,14 @@ public class GuessingActivity extends AppCompatActivity {
         mGuessSubmitButton = (Button) findViewById(R.id.guess_button);
 
         numRounds = MainActivity.rounds == 0 ? 3 : MainActivity.rounds;
+        pageIndicator = (PageIndicatorView) findViewById(R.id.guess_page_indicator);
+        pageIndicator.setCount(numRounds);
+        pageIndicator.setSelection(getTelephone().counter-1);
+        pageIndicator.setViewPager(null);
+        pageIndicator.setSelectedColor(Color.BLACK);
+        pageIndicator.setUnselectedColor(Color.GRAY);
+        pageNumberView = (TextView) findViewById(R.id.guess_page_number);
+        pageNumberView.setText(getString(R.string.page_number,getTelephone().counter,numRounds));
         int countDownSeconds = MainActivity.guessCountdown == 0 ? 15 : MainActivity.guessCountdown;
         getTelephone().secondsRemaining = countDownSeconds;
         loadImage();
@@ -53,6 +67,12 @@ public class GuessingActivity extends AppCompatActivity {
         ImageView image = (ImageView) findViewById(R.id.guess_image_view);
 
         image.setImageBitmap(bmp);
+        if(numRounds > 8) {
+            pageIndicator.setVisibility(View.GONE);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) image.getLayoutParams();
+            params.addRule(RelativeLayout.BELOW, R.id.guess_page_number);
+        } else
+            pageNumberView.setVisibility(View.GONE);
     }
 
     public void guessButtonClicked(View view) {

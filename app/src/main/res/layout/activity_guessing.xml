@@ -36,14 +36,31 @@
         android:layout_alignParentRight="true"
         android:text="@string/_60"
         android:textSize="30sp" />
-
+    <com.rd.PageIndicatorView
+        android:id="@+id/guess_page_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/guess_input"
+        android:layout_centerHorizontal="true"
+        />
+    <TextView
+        android:id="@+id/guess_page_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/guess_input"
+        android:layout_centerInParent="true"
+        android:text="@string/page_number"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        />
     <ImageView
         android:id="@+id/guess_image_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_below="@id/timerText"
+        android:layout_below="@id/guess_page_indicator"
         android:layout_marginTop="5dp"
         android:contentDescription="@string/guess_image_desc" />
+
 
 </RelativeLayout>

@@ -1,9 +1,7 @@
 package cs371m.papertelephone;
 
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.support.annotation.ColorInt;
@@ -14,16 +12,16 @@ import android.support.v4.graphics.ColorUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jrummyapps.android.colorpicker.ColorPickerDialog;
 import com.jrummyapps.android.colorpicker.ColorPickerDialogListener;
+import com.rd.PageIndicatorView;
+
+
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Random;
@@ -44,6 +42,8 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
     private FloatingActionsMenu fabMenu;
     private com.github.clans.fab.FloatingActionButton timer_button;
     private float[] greenHSL, redHSL, outHSL;
+    private PageIndicatorView pageIndicator;
+    private TextView pageNumberView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +55,22 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         ColorUtils.colorToHSL(getResources().getColor(R.color.green), greenHSL);
         ColorUtils.colorToHSL(getResources().getColor(R.color.red), redHSL);
         dView = (DrawingView) findViewById(R.id.drawingcanvas);
+        pageNumberView = (TextView) findViewById(R.id.page_number);
         guessButton = (TextView) findViewById(R.id.guessbutton);
         numRounds = MainActivity.rounds == 0 ? 3 : MainActivity.rounds;
+        pageNumberView.setText(getString(R.string.page_number,getTelephone().counter,numRounds));
+        pageIndicator = (PageIndicatorView) findViewById(R.id.page_indicator);
+        pageIndicator.setCount(numRounds);
+        pageIndicator.setSelection(getTelephone().counter-1);
+        pageIndicator.setViewPager(null);
+        pageIndicator.setSelectedColor(Color.BLACK);
+        pageIndicator.setUnselectedColor(Color.GRAY);
+        if(numRounds > 8) {
+            pageIndicator.setVisibility(View.GONE);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) dView.getLayoutParams();
+            params.addRule(RelativeLayout.BELOW, R.id.page_number);
+        } else
+            pageNumberView.setVisibility(View.GONE);
         countDownSeconds = MainActivity.drawCountdown == 0 ? 60 : MainActivity.drawCountdown;
         getTelephone().secondsRemaining = countDownSeconds;
         calledPause = false;
@@ -93,6 +107,8 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
             timer_button.setShowProgressBackground(false);
             timer_button.setProgress(0,false);
             dView.setVisibility(View.GONE);
+            pageIndicator.setVisibility(View.GONE);
+            pageNumberView.setVisibility(View.GONE);
             timer_button.hideProgress();
         }
         timer_button.setMax(countDownSeconds);
@@ -113,9 +129,9 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                             .setDialogId(DIALOG_ID)
                             .setColor(dView.getPaintColor())
                             .setShowAlphaSlider(true)
-                            .setPresets(new int[]{Color.BLACK,Color.RED,getResources().getColor(R.color.orange),Color.YELLOW,
-                                        Color.GREEN, Color.BLUE,getResources().getColor(R.color.indigo),getResources().getColor(R.color.violet),
-                                        Color.WHITE})
+                            .setPresets(new int[]{Color.BLACK, Color.RED, getResources().getColor(R.color.orange),
+                                    Color.YELLOW, Color.GREEN, Color.BLUE,getResources().getColor(R.color.indigo),
+                                    getResources().getColor(R.color.violet), Color.WHITE})
                             .show(DrawingActivity.this);
                 else
                     ColorPickerDialog.newBuilder()
@@ -179,6 +195,10 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                     dView.setTimeLeft(true);
                     fabMenu.setVisibility(View.VISIBLE);
                     dView.setVisibility(View.VISIBLE);
+                    if(numRounds <= 8)
+                        pageIndicator.setVisibility(View.VISIBLE);
+                    else
+                        pageNumberView.setVisibility(View.VISIBLE);
                     Log.d("DrawingActivity", "Counter = " + getTelephone().counter);
                     guessButton.setText(getString(R.string.draw_button,getTelephone().guesses.get(getTelephone().counter/2)));
                 }
@@ -193,6 +213,8 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                     dView.setTimeLeft(false);
                     dView.setVisibility(View.GONE);
                     fabMenu.setVisibility(View.GONE);
+                    pageIndicator.setVisibility(View.GONE);
+                    pageNumberView.setVisibility(View.GONE);
                 } else {
                     getTelephone().counter += 1;
                     Log.d("DrawingActivity", "False,Counter = " + getTelephone().counter);
@@ -217,60 +239,6 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         });
     }
 
-    public void guessButtonClick(View view) {
-        String str = String.valueOf(guessButton.getText());
-        if (str.contains("Start Drawing")) {
-            guessButton.setText(getString(R.string.draw_button,
-                    getTelephone().guesses.get(getTelephone().guesses.size()-1)));
-            guessButton.setEnabled(false);
-            dView.setTimeLeft(true);
-            invalidateOptionsMenu();
-            timer.start();
-        } else {
-            getTelephone().counter += 1;
-
-
-            // convert bitmap into byte array
-            dView.setDrawingCacheEnabled(true);
-            Bitmap bmp = dView.getDrawingCache();
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
-            getTelephone().pictures.add(byteArray);
-            Intent intent;
-            if (getTelephone().counter > numRounds) {
-                intent = new Intent(this, ResultsActivity.class);
-            } else {
-                intent = new Intent(this, GuessingActivity.class);
-            }
-            startActivity(intent);
-            finish();
-        }
-    }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        super.onCreateOptionsMenu(menu);
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.drawing_bar, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onPrepareOptionsMenu(Menu menu) {
-//        super.onPrepareOptionsMenu(menu);
-//        menu.findItem(R.id.colorpicker).setEnabled(dView.getTimeLeft());
-//        menu.findItem(R.id.brushsize).setEnabled(dView.getTimeLeft());
-//        menu.findItem(R.id.stopdrawing).setEnabled(dView.getTimeLeft());
-//        if (isErase)
-//            menu.findItem(R.id.erase).setIcon(R.drawable.nonerase);
-//        else
-//            menu.findItem(R.id.erase).setIcon(R.drawable.eraser);
-//        if (isErase && dView.getTimeLeft())
-//            menu.findItem(R.id.colorpicker).setEnabled(false);
-//        menu.findItem(R.id.erase).setEnabled(dView.getTimeLeft());
-//        return true;
-//    }
 
     public void onPause() {
         super.onPause();
@@ -305,74 +273,14 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                     guessButton.setText(R.string.start_guessing);
                     dView.setVisibility(View.GONE);
                     guessButton.setEnabled(true);
-
+                    pageIndicator.setVisibility(View.GONE);
+                    pageNumberView.setVisibility(View.GONE);
                 }
             };
             if ((getTelephone().counter == 1 || calledPause) && !roundStart)
                 timer.start();
         }
     }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        FragmentManager fm = getFragmentManager();
-//        switch (item.getItemId()) {
-//            case R.id.colorpicker:
-//                if (MainActivity.colorOn)
-//                    ColorPickerDialog.newBuilder()
-//                            .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
-//                            .setAllowPresets(false)
-//                            .setDialogId(DIALOG_ID)
-//                            .setColor(dView.getPaintColor())
-//                            .setShowAlphaSlider(true)
-//                            .show(this);
-//                else
-//                    ColorPickerDialog.newBuilder()
-//                            .setDialogType(ColorPickerDialog.TYPE_PRESETS)
-//                            .setAllowPresets(false)
-//                            .setAllowCustom(false)
-//                            .setDialogId(DIALOG_ID)
-//                            .setColor(dView.getPaintColor())
-//                            .setShowAlphaSlider(true)
-//                            .setPresets(new int[]{Color.BLACK, Color.GRAY, Color.WHITE})
-//                            .setShowColorShades(true)
-//                            .show(this);
-//                return true;
-//            case R.id.brushsize:
-//                BrushSizeDialog bSize = new BrushSizeDialog(this);
-//                bSize.setTitle(R.string.brush_size);
-//                bSize.show();
-//                return true;
-//            case R.id.stopdrawing:
-//                timer.cancel();
-//                if (getTelephone().counter == numRounds)
-//                    guessButton.setText(R.string.show_results);
-//                else
-//                    guessButton.setText(R.string.start_guessing);
-//                guessButton.setEnabled(true);
-//                dView.setTimeLeft(false);
-//                dView.setVisibility(View.GONE);
-//                invalidateOptionsMenu();
-//                return true;
-//            case R.id.erase:
-//                if (!isErase) {
-//                    oldPaintColor = dView.getPaintColor();
-//                    oldBrushWidth = dView.getBrushWidth();
-//                    dView.setPaintColor(Color.WHITE);
-//                    dView.setBrushWidth(130);
-//                    isErase = true;
-//                    invalidateOptionsMenu();
-//                } else {
-//                    dView.setPaintColor(oldPaintColor);
-//                    dView.setBrushWidth(oldBrushWidth);
-//                    isErase = false;
-//                    invalidateOptionsMenu();
-//                }
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
 
     @Override
     public void onColorSelected(int dialogId, @ColorInt int color) {
