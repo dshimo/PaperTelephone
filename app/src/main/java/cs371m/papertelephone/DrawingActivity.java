@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.support.annotation.ColorInt;
+
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
@@ -58,14 +59,14 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         pageNumberView = (TextView) findViewById(R.id.page_number);
         guessButton = (TextView) findViewById(R.id.guessbutton);
         numRounds = MainActivity.rounds == 0 ? 3 : MainActivity.rounds;
-        pageNumberView.setText(getString(R.string.page_number,getTelephone().counter,numRounds));
+        pageNumberView.setText(getString(R.string.page_number, getTelephone().counter, numRounds));
         pageIndicator = (PageIndicatorView) findViewById(R.id.page_indicator);
         pageIndicator.setCount(numRounds);
-        pageIndicator.setSelection(getTelephone().counter-1);
+        pageIndicator.setSelection(getTelephone().counter - 1);
         pageIndicator.setViewPager(null);
         pageIndicator.setSelectedColor(Color.BLACK);
         pageIndicator.setUnselectedColor(Color.GRAY);
-        if(numRounds > 8) {
+        if (numRounds > 8) {
             pageIndicator.setVisibility(View.GONE);
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) dView.getLayoutParams();
             params.addRule(RelativeLayout.BELOW, R.id.page_number);
@@ -105,7 +106,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
             timer_button.setColorNormalResId(R.color.green);
             timer_button.setLabelText("Press to Continue");
             timer_button.setShowProgressBackground(false);
-            timer_button.setProgress(0,false);
+            timer_button.setProgress(0, false);
             dView.setVisibility(View.GONE);
             pageIndicator.setVisibility(View.GONE);
             pageNumberView.setVisibility(View.GONE);
@@ -113,7 +114,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         }
         timer_button.setMax(countDownSeconds);
 
-        if(dView.getTimeLeft())
+        if (dView.getTimeLeft())
             fabMenu.setVisibility(View.VISIBLE);
         else
             fabMenu.setVisibility(View.GONE);
@@ -130,7 +131,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                             .setColor(dView.getPaintColor())
                             .setShowAlphaSlider(true)
                             .setPresets(new int[]{Color.BLACK, Color.RED, getResources().getColor(R.color.orange),
-                                    Color.YELLOW, Color.GREEN, Color.BLUE,getResources().getColor(R.color.indigo),
+                                    Color.YELLOW, Color.GREEN, Color.BLUE, getResources().getColor(R.color.indigo),
                                     getResources().getColor(R.color.violet), Color.WHITE})
                             .show(DrawingActivity.this);
                 else
@@ -186,7 +187,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         timer_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(roundStart) {
+                if (roundStart) {
                     roundStart = false;
                     timer_button.setShowProgressBackground(true);
                     timer_button.setColorNormalResId(R.color.red);
@@ -195,14 +196,13 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                     dView.setTimeLeft(true);
                     fabMenu.setVisibility(View.VISIBLE);
                     dView.setVisibility(View.VISIBLE);
-                    if(numRounds <= 8)
+                    if (numRounds <= 8)
                         pageIndicator.setVisibility(View.VISIBLE);
                     else
                         pageNumberView.setVisibility(View.VISIBLE);
                     Log.d("DrawingActivity", "Counter = " + getTelephone().counter);
-                    guessButton.setText(getString(R.string.draw_button,getTelephone().guesses.get(getTelephone().counter/2)));
-                }
-                else if(dView.getTimeLeft()) {
+                    guessButton.setText(getString(R.string.draw_button, getTelephone().guesses.get(getTelephone().counter / 2)));
+                } else if (dView.getTimeLeft()) {
                     timer_button.setImageResource(R.drawable.check);
                     timer_button.setColorNormalResId(R.color.green);
                     timer_button.setLabelText("Press to Continue");
@@ -243,13 +243,13 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
     public void onPause() {
         super.onPause();
         calledPause = true;
-        if(timer != null)
+        if (timer != null)
             timer.cancel();
     }
 
     public void onResume() {
         super.onResume();
-        if(dView.getTimeLeft() || roundStart) {
+        if (dView.getTimeLeft() || roundStart) {
             Log.d("DrawingActivity", "ONRESUME");
             timer = new CountDownTimer(getTelephone().secondsRemaining * 1000, 1000) {
                 @Override
@@ -257,7 +257,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                     getTelephone().secondsRemaining = (int) millisUntilFinished / 1000;
                     timer_button.setProgress(getTelephone().secondsRemaining, true);
                     ColorUtils.blendHSL(redHSL, greenHSL,
-                            ((float) getTelephone().secondsRemaining)/countDownSeconds, outHSL);
+                            ((float) getTelephone().secondsRemaining) / countDownSeconds, outHSL);
 
                     int newcolor = ColorUtils.HSLToColor(outHSL);
                     timer_button.setColorNormal(newcolor);

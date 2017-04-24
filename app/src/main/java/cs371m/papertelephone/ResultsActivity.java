@@ -1,10 +1,15 @@
 package cs371m.papertelephone;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -20,6 +25,7 @@ public class ResultsActivity extends AppCompatActivity {
     private int currentImageIndex;
     private ImageSwitcher imageSwitcher;
     private Button prevButton, nextButton, saveButton;
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +65,6 @@ public class ResultsActivity extends AppCompatActivity {
                 if (currentImageIndex >= 1) {
                     --currentImageIndex;
                     imageSwitcher.setVisibility(View.VISIBLE);
-//                   Toast.makeText(getApplicationContext(), "Round " + currentImageIndex + 1,
-//                           Toast.LENGTH_LONG).show();
                     byte[] byteArray = getTelephone().pictures.get(currentImageIndex);
                     Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
                     imageSwitcher.setImageDrawable(new BitmapDrawable(getResources(), bmp));
@@ -72,12 +76,8 @@ public class ResultsActivity extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(getApplicationContext(), "Round " + currentImageIndex,
-//                        Toast.LENGTH_SHORT).show();
                 if (currentImageIndex < getTelephone().pictures.size() - 1) {
                     ++currentImageIndex;
-//                   Toast.makeText(getApplicationContext(), "Round " + currentImageIndex + 1,
-//                           Toast.LENGTH_LONG).show();
                     byte[] byteArray = getTelephone().pictures.get(currentImageIndex);
                     Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
                     imageSwitcher.setImageDrawable(new BitmapDrawable(getResources(), bmp));
@@ -94,15 +94,56 @@ public class ResultsActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                byte[] byteArray = getTelephone().pictures.get(currentImageIndex);
-//                Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-//                MediaStore.Images.Media.insertImage(getContentResolver(), bmp, "" + (Math.random() * 1001), "");
+                if (currentImageIndex > getTelephone().pictures.size()) {
+                    Toast.makeText(getApplicationContext(), "No image available to " +
+                            "save for this round.", Toast.LENGTH_SHORT).show();
+                } else {
+                    ActivityCompat.requestPermissions(ResultsActivity.this,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
+                }
+
             }
         });
 
         imageSwitcher.setImageDrawable(new BitmapDrawable(getResources(), bmp));
         updateGuess();
     }
+
+    private String saveImageToStorage() {
+        byte[] byteArray = getTelephone().pictures.get(currentImageIndex);
+        Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+
+        // Save image to gallery
+        return MediaStore.Images.Media.insertImage(getContentResolver(), bmp,
+                "PaperTelephone Image", "PaperTelephone");
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    String savedImageURL = saveImageToStorage();
+                    Toast.makeText(getApplicationContext(), "Image saved successfully!" +
+                            savedImageURL, Toast.LENGTH_SHORT).show();
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
 
     private void updateGuess() {
         TextView guessDisplay = (TextView) findViewById(R.id.guess_display);
