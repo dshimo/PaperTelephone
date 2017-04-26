@@ -72,7 +72,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
             params.addRule(RelativeLayout.BELOW, R.id.page_number);
         } else
             pageNumberView.setVisibility(View.GONE);
-        countDownSeconds = MainActivity.drawCountdown == 0 ? 60 : MainActivity.drawCountdown;
+        countDownSeconds = MainActivity.guessCountdown == 0 ? 60 : MainActivity.drawCountdown;
         getTelephone().secondsRemaining = countDownSeconds;
         calledPause = false;
         fabMenu = (FloatingActionsMenu) findViewById(R.id.drawing_buttons);

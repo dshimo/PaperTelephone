@@ -130,7 +130,7 @@ public class ResultsActivity extends AppCompatActivity {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
                     String savedImageURL = saveImageToStorage();
-                    Toast.makeText(getApplicationContext(), "Image saved successfully!" +
+                    Toast.makeText(getApplicationContext(), "Image saved successfully! Path: " +
                             savedImageURL, Toast.LENGTH_SHORT).show();
                 } else {
                     // permission denied, boo! Disable the
