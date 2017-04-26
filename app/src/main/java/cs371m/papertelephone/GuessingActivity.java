@@ -96,7 +96,8 @@ public class GuessingActivity extends AppCompatActivity {
             }
         });
 
-        int countDownSeconds = MainActivity.guessCountdown == 0 ? 15 : MainActivity.guessCountdown;
+        countDownSeconds = MainActivity.guessCountdown == 0 ? 15 : MainActivity.guessCountdown;
+        timer_button.setMax(countDownSeconds);
         getTelephone().secondsRemaining = countDownSeconds;
         loadImage();
     }
