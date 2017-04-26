@@ -265,14 +265,14 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
 
                 @Override
                 public void onFinish() {
-                    dView.setTimeLeft(false);
-                    fabMenu.setVisibility(View.GONE);
                     timer_button.hideProgress();
                     timer_button.setImageResource(R.drawable.check);
                     timer_button.setColorNormalResId(R.color.green);
                     guessButton.setText(R.string.start_guessing);
-                    dView.setVisibility(View.GONE);
                     guessButton.setEnabled(true);
+                    dView.setTimeLeft(false);
+                    dView.setVisibility(View.GONE);
+                    fabMenu.setVisibility(View.GONE);
                     pageIndicator.setVisibility(View.GONE);
                     pageNumberView.setVisibility(View.GONE);
                 }

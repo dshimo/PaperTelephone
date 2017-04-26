@@ -44,9 +44,11 @@ public class DrawingView extends View {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldW, int oldH) {
-        super.onSizeChanged(w, h, oldW, oldH);
-        canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        drawCanvas = new Canvas(canvasBitmap);
+        if(timeLeft) {
+            super.onSizeChanged(w, h, oldW, oldH);
+            canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            drawCanvas = new Canvas(canvasBitmap);
+        }
     }
 
     @Override
@@ -77,6 +79,11 @@ public class DrawingView extends View {
     }
 
     public void setTimeLeft(boolean val) {
+        if(!drawPath.isEmpty()) {
+            drawCanvas.drawPath(drawPath, drawPaint);
+            drawPath.reset();
+            invalidate();
+        }
         timeLeft = val;
     }
 
