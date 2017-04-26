@@ -43,7 +43,6 @@ public class GuessingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guessing);
 
-//        mTimerTextView = (TextView) findViewById(R.id.timerText);
         mGuessEditTextView = (EditText) findViewById(R.id.guess_input);
         mGuessEditTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -55,7 +54,6 @@ public class GuessingActivity extends AppCompatActivity {
                 return false;
             }
         });
-//        mGuessSubmitButton = (Button) findViewById(R.id.guess_button);
 
         numRounds = MainActivity.rounds == 0 ? 3 : MainActivity.rounds;
         pageIndicator = (PageIndicatorView) findViewById(R.id.guess_page_indicator);
@@ -79,12 +77,10 @@ public class GuessingActivity extends AppCompatActivity {
         timer_button.bringToFront();
         roundStart = true;
 
-        // temp
         roundStart = false;
         timer_button.setShowProgressBackground(true);
         timer_button.setColorNormalResId(R.color.red);
         timer_button.setImageResource(R.drawable.timer_off);
-//        timer.start();
         timeLeft = true;
         if (numRounds <= 8)
             pageIndicator.setVisibility(View.VISIBLE);
@@ -95,24 +91,8 @@ public class GuessingActivity extends AppCompatActivity {
         timer_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("GuessingAct", "roundStart: " + roundStart);
-//                if (roundStart) {
-//                    roundStart = false;
-//                    timer_button.setShowProgressBackground(true);
-//                    timer_button.setColorNormalResId(R.color.red);
-//                    timer_button.setImageResource(R.drawable.timer_off);
-//                    timer.start();
-//                    timeLeft = true;
-//                    if (numRounds <= 8)
-//                        pageIndicator.setVisibility(View.VISIBLE);
-//                    else
-//                        pageNumberView.setVisibility(View.VISIBLE);
-//                    Log.d("GuessingAct", "Counter = " + getTelephone().counter);
-//                } else {
-//                    getTelephone().counter += 1;
-                    Log.d("GuessingAct", "False,Counter = " + getTelephone().counter);
-                    guessButtonClicked();
-//                }
+                guessButtonClicked();
+
             }
         });
 
@@ -143,8 +123,6 @@ public class GuessingActivity extends AppCompatActivity {
 
         Intent intent;
         Log.d("TAG", "Counter = " + getTelephone().counter);
-//        if (getTelephone().counter == 4)
-//            Log.d("STACKTRACE", Log.getStackTraceString(new Exception()));
         if (getTelephone().counter > numRounds) {
             intent = new Intent(this, ResultsActivity.class);
         } else {
@@ -181,19 +159,9 @@ public class GuessingActivity extends AppCompatActivity {
                 @Override
                 public void onFinish() {
                     guessButtonClicked();
-//                    dView.setTimeLeft(false);
-//                    fabMenu.setVisibility(View.GONE);
-//                    timer_button.hideProgress();
-//                    timer_button.setImageResource(R.drawable.check);
-//                    timer_button.setColorNormalResId(R.color.green);
-//                    guessButton.setText(R.string.start_guessing);
-//                    dView.setVisibility(View.GONE);
-//                    guessButton.setEnabled(true);
-//                    pageIndicator.setVisibility(View.GONE);
-//                    pageNumberView.setVisibility(View.GONE);
                 }
             };
-                timer.start();
+            timer.start();
         }
     }
 
