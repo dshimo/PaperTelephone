@@ -9,14 +9,21 @@
         android:entries="@array/difficulty_select"
         android:entryValues="@array/difficulty_select"/>
 
-    <EditTextPreference
+    <cs371m.papertelephone.NumberPickerPreference
+        android:id="@+id/rounds"
+        android:key="rounds"
+        android:title="Number of Players"
+        android:summary="Currently "
+        android:defaultValue="1"/>
+
+<!--    <EditTextPreference
         android:id="@+id/rounds"
         android:key="rounds"
         android:summary="How many players?"
         android:defaultValue="3"
         android:title="Number of Players"
         android:inputType="numberSigned"
-        android:selectAllOnFocus="true"/>
+        android:selectAllOnFocus="true"/>-->
 
     <EditTextPreference
         android:key="drawCountdown"
