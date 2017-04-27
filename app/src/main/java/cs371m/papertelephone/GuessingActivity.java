@@ -19,24 +19,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.rd.PageIndicatorView;
-
-import java.io.ByteArrayOutputStream;
+import mbanje.kurt.fabbutton.FabButton;
 
 public class GuessingActivity extends AppCompatActivity {
     private EditText mGuessEditTextView;
-    private Button mGuessSubmitButton;
     private CountDownTimer timer;
-    private TextView mTimerTextView;
     private int numRounds;
     private PageIndicatorView pageIndicator;
     private TextView pageNumberView;
     private boolean roundStart;
     private int countDownSeconds;
     private boolean timeLeft;
-    private boolean calledPause;
     private float[] greenHSL, redHSL, outHSL;
 
-    private com.github.clans.fab.FloatingActionButton timer_button;
+    private FabButton timer_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +45,6 @@ public class GuessingActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     mGuessEditTextView.clearFocus();
-                    mGuessSubmitButton.requestFocus();
                 }
                 return false;
             }
@@ -71,16 +66,13 @@ public class GuessingActivity extends AppCompatActivity {
         ColorUtils.colorToHSL(getResources().getColor(R.color.green), greenHSL);
         ColorUtils.colorToHSL(getResources().getColor(R.color.red), redHSL);
 
-        calledPause = false;
-
-        timer_button = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.time_button);
+        timer_button = (FabButton) findViewById(R.id.time_button);
         timer_button.bringToFront();
         roundStart = true;
 
         roundStart = false;
-        timer_button.setShowProgressBackground(true);
-        timer_button.setColorNormalResId(R.color.red);
-        timer_button.setImageResource(R.drawable.timer_off);
+        timer_button.showProgress(true);
+        timer_button.setIcon(getResources().getDrawable(R.drawable.timer_off),getResources().getDrawable(R.drawable.timer_off));
         timeLeft = true;
         if (numRounds <= 8)
             pageIndicator.setVisibility(View.VISIBLE);
@@ -97,7 +89,6 @@ public class GuessingActivity extends AppCompatActivity {
         });
 
         countDownSeconds = MainActivity.guessCountdown == 0 ? 15 : MainActivity.guessCountdown;
-        timer_button.setMax(countDownSeconds);
         getTelephone().secondsRemaining = countDownSeconds;
         loadImage();
     }
@@ -136,7 +127,6 @@ public class GuessingActivity extends AppCompatActivity {
 
     public void onPause() {
         super.onPause();
-        calledPause = true;
         if (timer != null)
             timer.cancel();
     }
@@ -149,12 +139,13 @@ public class GuessingActivity extends AppCompatActivity {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     getTelephone().secondsRemaining = (int) millisUntilFinished / 1000;
-                    timer_button.setProgress(getTelephone().secondsRemaining, true);
+                    int newProgress = (int)((((double) getTelephone().secondsRemaining)/countDownSeconds)*100);
+                    timer_button.setProgress(newProgress);
                     ColorUtils.blendHSL(redHSL, greenHSL,
                             ((float) getTelephone().secondsRemaining) / countDownSeconds, outHSL);
 
                     int newcolor = ColorUtils.HSLToColor(outHSL);
-                    timer_button.setColorNormal(newcolor);
+                    timer_button.setColor(newcolor);
                 }
 
                 @Override

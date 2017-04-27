@@ -12,19 +12,6 @@
     android:paddingTop="5dp"
     tools:context="cs371m.papertelephone.DrawingActivity">
 
-    <!--<com.github.clans.fab.FloatingActionButton-->
-        <!--android:id="@+id/time_button"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_gravity="top|right"-->
-        <!--android:layout_marginRight="4dp"-->
-        <!--android:layout_marginTop="4dp"-->
-        <!--android:src="@drawable/timer_off"-->
-        <!--app:fab_label="@string/stop_drawing"-->
-        <!--app:fab_progress="100"-->
-        <!--app:fab_progress_color="@color/orange"-->
-        <!--app:fab_progress_max="100" />-->
     <mbanje.kurt.fabbutton.FabButton
         android:id="@+id/time_button"
         android:layout_width="68dp"
