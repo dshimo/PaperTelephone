@@ -59,7 +59,13 @@ public class PreferencesActivity extends AppCompatActivity {
                     new Preference.OnPreferenceChangeListener() {
                         @Override
                         public boolean onPreferenceChange(Preference preference, Object newValue) {
-                            String diffSummary = "Difficulty is currently set to " + newValue;
+                            String diffSummary;
+                            if (newValue.equals("Choose your own!")) {
+                                diffSummary = "Be creative and write your own!";
+                            }
+                            else {
+                                diffSummary = "Difficulty is currently set to " + newValue;
+                            }
                             diffPref.setSummary(diffSummary);
                             return true;
                         }
@@ -68,8 +74,14 @@ public class PreferencesActivity extends AppCompatActivity {
         }
 
         private void difficultySummary() {
-            String diffSummary = "Difficulty is currently set to "
-                    + sharedPrefs.getString("difficulty", "Easy");
+            String difficulty = sharedPrefs.getString("difficulty", "Easy");
+            String diffSummary;
+            if (difficulty.equals("Choose your own!")) {
+                diffSummary = "Be creative and write your own!";
+            }
+            else {
+                diffSummary = "Drawing Prompt difficulty set to " + difficulty;
+            }
             Preference diffPref = findPreference("difficulty");
             diffPref.setSummary(diffSummary);
         }

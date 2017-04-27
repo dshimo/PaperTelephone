@@ -5,7 +5,7 @@
         android:id="@+id/difficulty"
         android:key="difficulty"
         android:summary="Difficulty"
-        android:title="Difficulty"
+        android:title="Drawing Prompt"
         android:entries="@array/difficulty_select"
         android:entryValues="@array/difficulty_select"/>
 
@@ -16,14 +16,12 @@
         android:summary="Currently "
         android:defaultValue="1"/>
 
-<!--    <EditTextPreference
-        android:id="@+id/rounds"
-        android:key="rounds"
-        android:summary="How many players?"
-        android:defaultValue="3"
-        android:title="Number of Players"
-        android:inputType="numberSigned"
-        android:selectAllOnFocus="true"/>-->
+<!--    <cs371m.papertelephone.TimerPickerPreference
+        android:id="@+id/drawCountDownPicker"
+        android:key="drawCountdownPicker"
+        android:title="Test Countdown Picker"
+        android:summary="Test Countdown Picker"
+        android:defaultValue="0"/>-->
 
     <EditTextPreference
         android:key="drawCountdown"
