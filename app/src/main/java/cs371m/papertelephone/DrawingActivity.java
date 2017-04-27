@@ -1,5 +1,6 @@
 package cs371m.papertelephone;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -12,10 +13,13 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import mbanje.kurt.fabbutton.FabButton;
 import mbanje.kurt.fabbutton.ProgressRingView;
 import android.support.v4.graphics.ColorUtils;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -32,6 +36,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
 
     public DrawingView dView;
     private static final int DIALOG_ID = 0;
+    public static String word;
     private CountDownTimer timer;
     private TextView guessButton;
     private boolean isErase;
@@ -47,7 +52,6 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
     private float[] greenHSL, redHSL, outHSL;
     private PageIndicatorView pageIndicator;
     private TextView pageNumberView;
-    private int difficulty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,21 +96,25 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
 
             String[] wordBank = {"Something has gone terribly wrong!"};
             switch (difficulty) {
-                case "Easy":
+                case "Easy Words":
                     wordBank = getResources().getStringArray(R.array.easywords);
+                    word = wordBank[rand.nextInt(wordBank.length)];
                     break;
-                case "Medium":
+                case "Medium Words":
                     wordBank = getResources().getStringArray(R.array.mediumwords);
+                    word = wordBank[rand.nextInt(wordBank.length)];
                     break;
-                case "Hard":
+                case "Hard Words":
                     wordBank = getResources().getStringArray(R.array.hardwords);
+                    word = wordBank[rand.nextInt(wordBank.length)];
+                    break;
+                case "Choose your own!":
+                    Log.d("DrawingActivity", "The word chosen is " + word);
                     break;
                 default:
                     break;
             }
-            String word = wordBank[rand.nextInt(wordBank.length)];
 
-            roundStart = false;
             guessButton.setText(getString(R.string.draw_button, word));
             getTelephone().guesses.add(word);
         } else {
@@ -244,7 +252,6 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
             }
         });
     }
-
 
     public void onPause() {
         super.onPause();

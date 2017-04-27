@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="difficulty_select">
-        <item>Easy</item>
-        <item>Medium</item>
-        <item>Hard</item>
+        <item>Easy Words</item>
+        <item>Medium Words</item>
+        <item>Hard Words</item>
+        <item>Choose your own!</item>
     </string-array>
     <string-array name="easywords">
         <item>cat</item>

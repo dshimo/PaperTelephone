@@ -1,15 +1,22 @@
 package cs371m.papertelephone;
 
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -103,10 +110,52 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startNewGame(View view) {
-        Intent intent = new Intent(this, DrawingActivity.class);
-        ((TelephoneCounter) getApplicationContext()).counter = 1;
-        ((TelephoneCounter) getApplicationContext()).guesses.clear();
-        ((TelephoneCounter) getApplicationContext()).pictures.clear();
-        startActivity(intent);
+        final Intent intent = new Intent(this, DrawingActivity.class);
+        SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
+        if (sharedPref.getString("difficulty", "Easy").equals("Choose your own!") ) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setTitle("Write your prompt");
+
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            input.requestFocus();
+            //the snippet doesn't automatically bring up keyboard unfortunately
+/*            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);*/
+            builder.setView(input);
+
+
+
+            // Set up the buttons
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    DrawingActivity.word = input.getText().toString();
+                    if (!DrawingActivity.word.equals("")) {
+                        ((TelephoneCounter) getApplicationContext()).counter = 1;
+                        ((TelephoneCounter) getApplicationContext()).guesses.clear();
+                        ((TelephoneCounter) getApplicationContext()).pictures.clear();
+                        startActivity(intent);
+                    }
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "You didn't write anything!", Toast.LENGTH_SHORT);
+                    toast.show();
+                    dialog.cancel();
+                }
+            });
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            builder.show();
+        } else {
+            ((TelephoneCounter) getApplicationContext()).counter = 1;
+            ((TelephoneCounter) getApplicationContext()).guesses.clear();
+            ((TelephoneCounter) getApplicationContext()).pictures.clear();
+            startActivity(intent);
+        }
     }
 }
