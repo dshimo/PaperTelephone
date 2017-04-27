@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <ListPreference
+        android:id="@+id/difficulty"
+        android:key="difficulty"
+        android:summary="Difficulty"
+        android:title="Difficulty"
+        android:entries="@array/difficulty_select"
+        android:entryValues="@array/difficulty_select"/>
+
     <EditTextPreference
+        android:id="@+id/rounds"
         android:key="rounds"
         android:summary="How many players?"
         android:defaultValue="3"
-        android:title="Number of Rounds"
+        android:title="Number of Players"
         android:inputType="numberSigned"
         android:selectAllOnFocus="true"/>
 
@@ -20,8 +29,8 @@
     <EditTextPreference
         android:key="guessCountdown"
         android:summary="Time to guess (seconds)"
-        android:defaultValue="15"
-        android:title="Time to guess"
+        android:defaultValue="30"
+        android:title="Guessing Time"
         android:inputType="numberSigned"
         android:selectAllOnFocus="true"/>
 
@@ -30,5 +39,4 @@
         android:summary="Color on or color off"
         android:defaultValue="true"
         android:title="Color" />
-
 </PreferenceScreen>

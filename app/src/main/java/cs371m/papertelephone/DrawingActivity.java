@@ -28,6 +28,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.Random;
 
 public class DrawingActivity extends AppCompatActivity implements ColorPickerDialogListener {
+    public final String TAG = "DrawingActivity";
 
     public DrawingView dView;
     private static final int DIALOG_ID = 0;
@@ -45,6 +46,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
     private float[] greenHSL, redHSL, outHSL;
     private PageIndicatorView pageIndicator;
     private TextView pageNumberView;
+    private int difficulty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,18 +85,26 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         timer_button.bringToFront();
         if (getTelephone().counter == 1) {
             Random rand = new Random();
-            String[] easy = getResources().getStringArray(R.array.easywords);
-            String[] medium = getResources().getStringArray(R.array.mediumwords);
-            String[] hard = getResources().getStringArray(R.array.hardwords);
-            int index = rand.nextInt(easy.length + medium.length + hard.length);
-            String word;
+            String difficulty = MainActivity.difficulty;
+            Log.d(TAG, "The difficulty is set to " + difficulty);
+
+            String[] wordBank = {"Something has gone terribly wrong!"};
+            switch (difficulty) {
+                case "Easy":
+                    wordBank = getResources().getStringArray(R.array.easywords);
+                    break;
+                case "Medium":
+                    wordBank = getResources().getStringArray(R.array.mediumwords);
+                    break;
+                case "Hard":
+                    wordBank = getResources().getStringArray(R.array.hardwords);
+                    break;
+                default:
+                    break;
+            }
+            String word = wordBank[rand.nextInt(wordBank.length)];
+
             roundStart = false;
-            if (index < easy.length)
-                word = easy[index];
-            else if (index < (easy.length + medium.length))
-                word = medium[index - easy.length];
-            else
-                word = hard[index - easy.length - medium.length];
             guessButton.setText(getString(R.string.draw_button, word));
             getTelephone().guesses.add(word);
         } else {

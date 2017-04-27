@@ -7,8 +7,6 @@ import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import java.util.prefs.Preferences;
-
 public class PreferencesActivity extends AppCompatActivity {
     static final String TAG = "PreferencesActivity";
 
@@ -35,6 +33,10 @@ public class PreferencesActivity extends AppCompatActivity {
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.preferences);
 
+            // handle difficulty listener and summary
+            difficultyListener();
+            difficultySummary();
+
             // handle rounds listener and summary
             roundsListener();
             updateRoundsSummary();
@@ -50,6 +52,27 @@ public class PreferencesActivity extends AppCompatActivity {
             updateColorSummary();
         }
 
+        private void difficultyListener() {
+            final Preference diffPref = findPreference("difficulty");
+            diffPref.setOnPreferenceChangeListener(
+                    new Preference.OnPreferenceChangeListener() {
+                        @Override
+                        public boolean onPreferenceChange(Preference preference, Object newValue) {
+                            String diffSummary = "Difficulty is currently set to " + newValue;
+                            diffPref.setSummary(diffSummary);
+                            return true;
+                        }
+                    }
+            );
+        }
+
+        private void difficultySummary() {
+            String diffSummary = "Difficulty is currently set to "
+                    + sharedPrefs.getString("difficulty", "Easy");
+            Preference diffPref = findPreference("difficulty");
+            diffPref.setSummary(diffSummary);
+        }
+
         private void roundsListener() {
             final Preference roundsPref = findPreference("rounds");
             roundsPref.setOnPreferenceChangeListener(
@@ -57,7 +80,7 @@ public class PreferencesActivity extends AppCompatActivity {
 
                         @Override
                         public boolean onPreferenceChange(Preference preference, Object newValue) {
-                            String roundsSummary = "Number of Rounds: " + newValue;
+                            String roundsSummary = "Currently set to " + newValue;
                             roundsPref.setSummary(roundsSummary);
 
                             SharedPreferences.Editor editor = sharedPrefs.edit();
@@ -70,7 +93,7 @@ public class PreferencesActivity extends AppCompatActivity {
         }
 
         private void updateRoundsSummary() {
-            String roundsSummary = "Number of Rounds: " + sharedPrefs.getString("rounds", "3");
+            String roundsSummary = "Currently set to " + sharedPrefs.getString("rounds", "3");
             Preference roundsPref = findPreference("rounds");
             roundsPref.setSummary(roundsSummary);
         }

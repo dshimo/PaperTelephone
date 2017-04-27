@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int SETTINGS_REQUEST = 1;
 
+    public static String difficulty;
     public static int rounds;
     public static int drawCountdown;
     public static int guessCountdown;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("drawCountdown", String.valueOf(drawCountdown));
         editor.putString("rounds", String.valueOf(rounds));
         editor.putString("guessCountdown", String.valueOf(guessCountdown));
+        editor.putString("difficulty", String.valueOf(difficulty));
 
         editor.apply();
     }
@@ -48,10 +50,11 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onResume()");
 
         SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
+        difficulty = sharedPref.getString("difficulty", "Easy");
         colorOn = sharedPref.getBoolean("colorOn", true);
         drawCountdown = Integer.parseInt(sharedPref.getString("drawCountdown", "60"));
         rounds = Integer.parseInt(sharedPref.getString("rounds", "3"));
-        guessCountdown = Integer.parseInt(sharedPref.getString("guessCountdown", "15"));
+        guessCountdown = Integer.parseInt(sharedPref.getString("guessCountdown", "30"));
     }
 
     @Override
