@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Values taken from the following source:
+https://github.com/futuresimple/android-floating-action-button/blob/master/sample/src/main/res/drawable/fab_label_background.xml
+-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="@color/black_semi_transparent"/>
     <padding

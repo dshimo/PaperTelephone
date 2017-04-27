@@ -9,6 +9,8 @@ import android.support.annotation.ColorInt;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
+import mbanje.kurt.fabbutton.FabButton;
+import mbanje.kurt.fabbutton.ProgressRingView;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,8 +23,6 @@ import com.jrummyapps.android.colorpicker.ColorPickerDialog;
 import com.jrummyapps.android.colorpicker.ColorPickerDialogListener;
 import com.rd.PageIndicatorView;
 
-
-import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Random;
@@ -42,7 +42,8 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
     private int countDownSeconds;
     private boolean calledPause;
     private FloatingActionsMenu fabMenu;
-    private com.github.clans.fab.FloatingActionButton timer_button;
+    private FabButton timer_button;
+    private ProgressRingView progressView;
     private float[] greenHSL, redHSL, outHSL;
     private PageIndicatorView pageIndicator;
     private TextView pageNumberView;
@@ -81,7 +82,8 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         final FloatingActionButton colorPicker = (FloatingActionButton) findViewById(R.id.color_picker_button);
         final FloatingActionButton brushSize = (FloatingActionButton) findViewById(R.id.brush_size_button);
         final FloatingActionButton erase = (FloatingActionButton) findViewById(R.id.erase_button);
-        timer_button = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.time_button);
+        timer_button = (FabButton) findViewById(R.id.time_button);
+        timer_button.setIcon(getResources().getDrawable(R.drawable.timer_off),getResources().getDrawable(R.drawable.timer_off));
         timer_button.bringToFront();
         if (getTelephone().counter == 1) {
             Random rand = new Random();
@@ -112,17 +114,13 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
             guessButton.setEnabled(true);
             dView.setTimeLeft(false);
             roundStart = true;
-            timer_button.setImageResource(R.drawable.check);
-            timer_button.setColorNormalResId(R.color.green);
-            timer_button.setLabelText("Press to Continue");
-            timer_button.setShowProgressBackground(false);
-            timer_button.setProgress(0, false);
+            timer_button.setIcon(getResources().getDrawable(R.drawable.check), getResources().getDrawable(R.drawable.check));
+            timer_button.setColor(getResources().getColor(R.color.green));
+            timer_button.showProgress(false);
             dView.setVisibility(View.GONE);
             pageIndicator.setVisibility(View.GONE);
             pageNumberView.setVisibility(View.GONE);
-            timer_button.hideProgress();
         }
-        timer_button.setMax(countDownSeconds);
 
         if (dView.getTimeLeft())
             fabMenu.setVisibility(View.VISIBLE);
@@ -199,9 +197,8 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
             public void onClick(View v) {
                 if (roundStart) {
                     roundStart = false;
-                    timer_button.setShowProgressBackground(true);
-                    timer_button.setColorNormalResId(R.color.red);
-                    timer_button.setImageResource(R.drawable.timer_off);
+                    timer_button.showProgress(true);
+                    timer_button.setIcon(getResources().getDrawable(R.drawable.timer_off),getResources().getDrawable(R.drawable.timer_off));
                     timer.start();
                     dView.setTimeLeft(true);
                     fabMenu.setVisibility(View.VISIBLE);
@@ -213,10 +210,9 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                     Log.d("DrawingActivity", "Counter = " + getTelephone().counter);
                     guessButton.setText(getString(R.string.draw_button, getTelephone().guesses.get(getTelephone().counter / 2)));
                 } else if (dView.getTimeLeft()) {
-                    timer_button.setImageResource(R.drawable.check);
-                    timer_button.setColorNormalResId(R.color.green);
-                    timer_button.setLabelText("Press to Continue");
-                    timer_button.hideProgress();
+                    timer_button.setIcon(getResources().getDrawable(R.drawable.check), getResources().getDrawable(R.drawable.check));
+                    timer_button.setColor(getResources().getColor(R.color.green));
+                    timer_button.showProgress(false);
                     timer.cancel();
                     guessButton.setText(R.string.start_guessing);
                     guessButton.setEnabled(true);
@@ -265,19 +261,20 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                 @Override
                 public void onTick(long millisUntilFinished) {
                     getTelephone().secondsRemaining = (int) millisUntilFinished / 1000;
-                    timer_button.setProgress(getTelephone().secondsRemaining, true);
+                    int newProgress = (int)((((double) getTelephone().secondsRemaining)/countDownSeconds)*100);
+                    timer_button.setProgress(newProgress);
                     ColorUtils.blendHSL(redHSL, greenHSL,
                             ((float) getTelephone().secondsRemaining) / countDownSeconds, outHSL);
 
                     int newcolor = ColorUtils.HSLToColor(outHSL);
-                    timer_button.setColorNormal(newcolor);
+                    timer_button.setColor(newcolor);
                 }
 
                 @Override
                 public void onFinish() {
-                    timer_button.hideProgress();
-                    timer_button.setImageResource(R.drawable.check);
-                    timer_button.setColorNormalResId(R.color.green);
+                    timer_button.showProgress(false);
+                    timer_button.setIcon(getResources().getDrawable(R.drawable.check),getResources().getDrawable(R.drawable.check));
+                    timer_button.setColor(getResources().getColor(R.color.green));
                     guessButton.setText(R.string.start_guessing);
                     guessButton.setEnabled(true);
                     dView.setTimeLeft(false);
