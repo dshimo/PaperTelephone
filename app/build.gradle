@@ -29,7 +29,6 @@ dependencies {
     compile 'com.jrummyapps:colorpicker:2.1.6'
     testCompile 'junit:junit:4.12'
     compile 'com.getbase:floatingactionbutton:1.10.1'
-    compile 'com.github.clans:fab:1.6.4'
     compile 'mbanje.kurt:fabbutton:1.2.4@aar'
     compile 'com.romandanylyk:pageindicatorview:0.1.2@aar'
 }
