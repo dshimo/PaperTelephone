@@ -11,7 +11,6 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import mbanje.kurt.fabbutton.FabButton;
-import mbanje.kurt.fabbutton.ProgressRingView;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -48,7 +47,6 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
     private boolean calledPause;
     private FloatingActionsMenu fabMenu;
     private FabButton timer_button;
-    private ProgressRingView progressView;
     private float[] greenHSL, redHSL, outHSL;
     private PageIndicatorView pageIndicator;
     private TextView pageNumberView;
@@ -89,9 +87,10 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
         timer_button = (FabButton) findViewById(R.id.time_button);
         timer_button.setIcon(getResources().getDrawable(R.drawable.timer_off),getResources().getDrawable(R.drawable.timer_off));
         timer_button.bringToFront();
+        timer_button.showProgress(true);
         if (getTelephone().counter == 1) {
             Random rand = new Random();
-            String difficulty = MainActivity.difficulty;
+            String difficulty = MainActivity.difficulty == null ? "Easy Words" : MainActivity.difficulty;
             Log.d(TAG, "The difficulty is set to " + difficulty);
 
             String[] wordBank = {"Something has gone terribly wrong!"};

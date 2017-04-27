@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onResume()");
 
         SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
-        difficulty = sharedPref.getString("difficulty", "Easy");
+        difficulty = sharedPref.getString("difficulty", "Easy Words");
         colorOn = sharedPref.getBoolean("colorOn", true);
         drawCountdown = Integer.parseInt(sharedPref.getString("drawCountdown", "60"));
         rounds = sharedPref.getInt("rounds", 1);
@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
             drawCountdown = Integer.parseInt(sharedPref.getString("drawCountdown", "60"));
             rounds = sharedPref.getInt("rounds", 1);
             guessCountdown = Integer.parseInt(sharedPref.getString("guessCountdown", "15"));
+            difficulty = sharedPref.getString("difficulty", "Easy Words");
         }
     }
 

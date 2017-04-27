@@ -73,6 +73,7 @@ public class GuessingActivity extends AppCompatActivity {
         roundStart = false;
         timer_button.showProgress(true);
         timer_button.setIcon(getResources().getDrawable(R.drawable.timer_off),getResources().getDrawable(R.drawable.timer_off));
+        timer_button.showShadow(true);
         timeLeft = true;
         if (numRounds <= 8)
             pageIndicator.setVisibility(View.VISIBLE);
