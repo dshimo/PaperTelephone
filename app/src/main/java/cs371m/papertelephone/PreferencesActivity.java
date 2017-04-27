@@ -1,5 +1,6 @@
 package cs371m.papertelephone;
 
+import android.app.DialogFragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -84,7 +85,7 @@ public class PreferencesActivity extends AppCompatActivity {
                             roundsPref.setSummary(roundsSummary);
 
                             SharedPreferences.Editor editor = sharedPrefs.edit();
-                            editor.putString("rounds", newValue.toString());
+                            editor.putInt("rounds", (int)newValue);
                             editor.apply();
                             return true;
                         }
@@ -93,7 +94,7 @@ public class PreferencesActivity extends AppCompatActivity {
         }
 
         private void updateRoundsSummary() {
-            String roundsSummary = "Currently set to " + sharedPrefs.getString("rounds", "3");
+            String roundsSummary = "Currently set to " + sharedPrefs.getInt("rounds", 1);
             Preference roundsPref = findPreference("rounds");
             roundsPref.setSummary(roundsSummary);
         }
