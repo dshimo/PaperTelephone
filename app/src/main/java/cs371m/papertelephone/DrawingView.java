@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -19,6 +21,7 @@ public class DrawingView extends View {
     private Canvas drawCanvas;
     private Bitmap canvasBitmap;
     private boolean timeLeft;
+    private float circleX, circleY;
 
     public DrawingView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -103,16 +106,22 @@ public class DrawingView extends View {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     drawPath.moveTo(touchX, touchY);
-                    drawPaint.setStyle(Paint.Style.FILL);
-                    drawCanvas.drawCircle(touchX, touchY, getBrushWidth() / 2, drawPaint);
-                    drawPaint.setStyle(Paint.Style.STROKE);
+                    circleX = touchX;
+                    circleY = touchY;
                     break;
                 case MotionEvent.ACTION_MOVE:
+                    circleX = -1;
+                    circleY = -1;
                     drawPath.lineTo(touchX, touchY);
                     break;
                 case MotionEvent.ACTION_UP:
                     drawCanvas.drawPath(drawPath, drawPaint);
                     drawPath.reset();
+                    if(circleX != -1) {
+                        drawPaint.setStyle(Paint.Style.FILL);
+                        drawCanvas.drawCircle(touchX, touchY, getBrushWidth() / 2, drawPaint);
+                        drawPaint.setStyle(Paint.Style.STROKE);
+                    }
                     break;
                 default:
                     return false;
