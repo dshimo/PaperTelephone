@@ -61,7 +61,7 @@
         android:id="@id/button_showcase"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/endgame_options_showcase"
         android:background="#00ffffff"
         android:orientation="horizontal"
         android:paddingBottom="1.0dip"
@@ -89,6 +89,38 @@
 
         <Button
             android:id="@+id/nextButton"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:elevation="8dp"
+            android:text="@string/next_prompt" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@id/endgame_options_showcase"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#00ffffff"
+        android:orientation="horizontal"
+        android:paddingBottom="1.0dip"
+        android:paddingLeft="4.0dip"
+        android:paddingRight="4.0dip"
+        android:paddingTop="5.0dip">
+
+        <Button
+            android:id="@+id/main_menu_button"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:elevation="8dp"
+            android:text="@string/save_prompt" />
+
+        <Button
+            android:id="@+id/new_game_button"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

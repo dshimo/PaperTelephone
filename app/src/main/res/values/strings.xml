@@ -46,4 +46,6 @@
     <string name="difficulty_select">Select Drawing Prompt Difficulty</string>
     <string name="results_title">Thanks for playing!</string>
     <string name="guess_marker">The word was:</string>
+    <string name="main_menu_prompt">Main Menu</string>
+    <string name="start_new_game_prompt">New Game</string>
 </resources>

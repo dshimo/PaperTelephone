@@ -1,6 +1,9 @@
 package cs371m.papertelephone;
 
 import android.Manifest;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,10 +14,13 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ImageSwitcher;
@@ -43,7 +49,7 @@ public class ResultsActivity extends AppCompatActivity {
         saveButton = (Button) findViewById(R.id.saveButton);
 
         prevButton.setEnabled(false);
-        if(MainActivity.rounds <= 2)
+        if (MainActivity.rounds <= 2)
             nextButton.setEnabled(false);
         Log.d("numRounds", String.valueOf(MainActivity.rounds));
 
@@ -114,11 +120,16 @@ public class ResultsActivity extends AppCompatActivity {
                             new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
                 }
+//                saveButton.setEnabled(false);
             }
         });
 
         imageSwitcher.setImageDrawable(new BitmapDrawable(getResources(), bmp));
         updateGuess();
+    }
+
+    public void returnToMainActivity(View v) {
+        finish();
     }
 
     private String saveImageToStorage() {
@@ -165,4 +176,49 @@ public class ResultsActivity extends AppCompatActivity {
         return ((TelephoneCounter) getApplicationContext());
     }
 
+    public void startNewGame(View view) {
+        final Intent intent = new Intent(this, DrawingActivity.class);
+        SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
+        if (sharedPref.getString("difficulty", "Easy").equals("Choose your own!")) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setTitle("Write your prompt");
+
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            input.requestFocus();
+
+            builder.setView(input);
+
+            // Set up the buttons
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    DrawingActivity.word = input.getText().toString();
+                    if (!DrawingActivity.word.equals("")) {
+                        ((TelephoneCounter) getApplicationContext()).counter = 1;
+                        ((TelephoneCounter) getApplicationContext()).guesses.clear();
+                        ((TelephoneCounter) getApplicationContext()).pictures.clear();
+                        startActivity(intent);
+                    }
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "You didn't write anything!", Toast.LENGTH_SHORT);
+                    toast.show();
+                    dialog.cancel();
+                }
+            });
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            builder.show();
+        } else {
+            ((TelephoneCounter) getApplicationContext()).counter = 1;
+            ((TelephoneCounter) getApplicationContext()).guesses.clear();
+            ((TelephoneCounter) getApplicationContext()).pictures.clear();
+            startActivity(intent);
+        }
+    }
 }
