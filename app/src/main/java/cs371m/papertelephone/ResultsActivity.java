@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,7 +32,6 @@ public class ResultsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
-        numRounds = MainActivity.rounds == 0 ? 3 : MainActivity.rounds;
         currentImageIndex = 0;
 
         /**
@@ -41,6 +41,11 @@ public class ResultsActivity extends AppCompatActivity {
         prevButton = (Button) findViewById(R.id.prevButton);
         nextButton = (Button) findViewById(R.id.nextButton);
         saveButton = (Button) findViewById(R.id.saveButton);
+
+        prevButton.setEnabled(false);
+        if(MainActivity.rounds <= 2)
+            nextButton.setEnabled(false);
+        Log.d("numRounds", String.valueOf(MainActivity.rounds));
 
         byte[] byteArray = getTelephone().pictures.get(currentImageIndex);
         Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
@@ -62,6 +67,7 @@ public class ResultsActivity extends AppCompatActivity {
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                nextButton.setEnabled(true);
                 if (currentImageIndex >= 1) {
                     --currentImageIndex;
                     imageSwitcher.setVisibility(View.VISIBLE);
@@ -70,12 +76,16 @@ public class ResultsActivity extends AppCompatActivity {
                     imageSwitcher.setImageDrawable(new BitmapDrawable(getResources(), bmp));
                     updateGuess();
                 }
+                if (currentImageIndex == 0) {
+                    prevButton.setEnabled(false);
+                }
             }
         });
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                prevButton.setEnabled(true);
                 if (currentImageIndex < getTelephone().pictures.size() - 1) {
                     ++currentImageIndex;
                     byte[] byteArray = getTelephone().pictures.get(currentImageIndex);
@@ -87,7 +97,9 @@ public class ResultsActivity extends AppCompatActivity {
                     imageSwitcher.setVisibility(View.GONE);
                     updateGuess();
                 }
-
+                if ((getTelephone().pictures.size() > getTelephone().guesses.size() && currentImageIndex == getTelephone().pictures.size() - 1) || currentImageIndex == getTelephone().guesses.size() - 1) {
+                    nextButton.setEnabled(false);
+                }
             }
         });
 
