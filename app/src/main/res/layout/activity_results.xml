@@ -32,8 +32,7 @@
             android:id="@+id/guess_marker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:paddingTop="16dp"
+            android:padding="8dp"
             android:text="@string/guess_marker"
             android:textSize="30sp" />
 
@@ -41,10 +40,7 @@
             android:id="@+id/guess_display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingTop="16dp"
+            android:padding="8dp"
             android:text="@string/guess_display"
             android:textSize="30sp" />
 
@@ -55,12 +51,14 @@
         android:id="@+id/imageSwitcher"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_above="@+id/button_showcase"
         android:layout_below="@id/guess_showcase"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_margin="10dp" />
+        android:padding="5dp" />
 
     <LinearLayout
+        android:id="@id/button_showcase"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
