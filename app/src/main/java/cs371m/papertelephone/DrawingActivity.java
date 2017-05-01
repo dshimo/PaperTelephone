@@ -217,39 +217,49 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
                     Log.d("DrawingActivity", "Counter = " + getTelephone().counter);
                     guessButton.setText(getString(R.string.draw_button, getTelephone().guesses.get(getTelephone().counter / 2)));
                 } else if (dView.getTimeLeft()) {
-                    timer_button.setIcon(getResources().getDrawable(R.drawable.check), getResources().getDrawable(R.drawable.check));
-                    timer_button.setColor(getResources().getColor(R.color.green));
-                    timer_button.showProgress(false);
                     timer.cancel();
-                    guessButton.setText(R.string.start_guessing);
-                    guessButton.setEnabled(true);
-                    dView.setTimeLeft(false);
-                    dView.setVisibility(View.GONE);
-                    fabMenu.setVisibility(View.GONE);
-                    pageIndicator.setVisibility(View.GONE);
-                    pageNumberView.setVisibility(View.GONE);
+                    drawingFinished();
                 } else {
                     getTelephone().counter += 1;
                     Log.d("DrawingActivity", "False,Counter = " + getTelephone().counter);
 
                     // convert bitmap into byte array
-                    dView.setDrawingCacheEnabled(true);
-                    Bitmap bmp = dView.getDrawingCache();
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    byte[] byteArray = stream.toByteArray();
-                    getTelephone().pictures.add(byteArray);
-                    Intent intent;
-                    if (getTelephone().counter > numRounds) {
-                        intent = new Intent(DrawingActivity.this, ResultsActivity.class);
-                    } else {
-                        intent = new Intent(DrawingActivity.this, GuessingActivity.class);
-                    }
+                    savePicture();
+                    Intent intent = new Intent(DrawingActivity.this, GuessingActivity.class);;
                     startActivity(intent);
                     finish();
                 }
             }
         });
+    }
+
+    private void drawingFinished() {
+        if(getTelephone().counter == numRounds) {
+            savePicture();
+            Intent intent = new Intent(DrawingActivity.this, ResultsActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            timer_button.setIcon(getResources().getDrawable(R.drawable.check), getResources().getDrawable(R.drawable.check));
+            timer_button.setColor(getResources().getColor(R.color.green));
+            timer_button.showProgress(false);
+            guessButton.setText(R.string.start_guessing);
+            guessButton.setEnabled(true);
+            dView.setTimeLeft(false);
+            dView.setVisibility(View.GONE);
+            fabMenu.setVisibility(View.GONE);
+            pageIndicator.setVisibility(View.GONE);
+            pageNumberView.setVisibility(View.GONE);
+        }
+    }
+
+    private void savePicture() {
+        dView.setDrawingCacheEnabled(true);
+        Bitmap bmp = dView.getDrawingCache();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        getTelephone().pictures.add(byteArray);
     }
 
     public void onPause() {
@@ -278,16 +288,7 @@ public class DrawingActivity extends AppCompatActivity implements ColorPickerDia
 
                 @Override
                 public void onFinish() {
-                    timer_button.showProgress(false);
-                    timer_button.setIcon(getResources().getDrawable(R.drawable.check),getResources().getDrawable(R.drawable.check));
-                    timer_button.setColor(getResources().getColor(R.color.green));
-                    guessButton.setText(R.string.start_guessing);
-                    guessButton.setEnabled(true);
-                    dView.setTimeLeft(false);
-                    dView.setVisibility(View.GONE);
-                    fabMenu.setVisibility(View.GONE);
-                    pageIndicator.setVisibility(View.GONE);
-                    pageNumberView.setVisibility(View.GONE);
+                    drawingFinished();
                 }
             };
             if ((getTelephone().counter == 1 || calledPause) && !roundStart)
