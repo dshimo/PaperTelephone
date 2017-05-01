@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.rd.PageIndicatorView;
+
 import mbanje.kurt.fabbutton.FabButton;
 
 public class GuessingActivity extends AppCompatActivity {
@@ -72,7 +73,7 @@ public class GuessingActivity extends AppCompatActivity {
 
         roundStart = false;
         timer_button.showProgress(true);
-        timer_button.setIcon(getResources().getDrawable(R.drawable.timer_off),getResources().getDrawable(R.drawable.timer_off));
+        timer_button.setIcon(getResources().getDrawable(R.drawable.timer_off), getResources().getDrawable(R.drawable.timer_off));
         timer_button.showShadow(true);
         timeLeft = true;
         if (numRounds <= 8)
@@ -140,7 +141,7 @@ public class GuessingActivity extends AppCompatActivity {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     getTelephone().secondsRemaining = (int) millisUntilFinished / 1000;
-                    int newProgress = (int)((((double) getTelephone().secondsRemaining)/countDownSeconds)*100);
+                    int newProgress = (int) ((((double) getTelephone().secondsRemaining) / countDownSeconds) * 100);
                     timer_button.setProgress(newProgress);
                     ColorUtils.blendHSL(redHSL, greenHSL,
                             ((float) getTelephone().secondsRemaining) / countDownSeconds, outHSL);

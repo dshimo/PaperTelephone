@@ -74,6 +74,7 @@ public class ResultsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 nextButton.setEnabled(true);
+                saveButton.setEnabled(true);
                 if (currentImageIndex >= 1) {
                     --currentImageIndex;
                     imageSwitcher.setVisibility(View.VISIBLE);
@@ -103,8 +104,13 @@ public class ResultsActivity extends AppCompatActivity {
                     imageSwitcher.setVisibility(View.GONE);
                     updateGuess();
                 }
+                // disable button if currently viewing last image
                 if ((getTelephone().pictures.size() > getTelephone().guesses.size() && currentImageIndex == getTelephone().pictures.size() - 1) || currentImageIndex == getTelephone().guesses.size() - 1) {
                     nextButton.setEnabled(false);
+                }
+                // manage disabling save button if no image to save
+                if (currentImageIndex >= getTelephone().pictures.size()) {
+                    saveButton.setEnabled(false);
                 }
             }
         });
@@ -112,7 +118,7 @@ public class ResultsActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (currentImageIndex > getTelephone().pictures.size()) {
+                if (currentImageIndex >= getTelephone().pictures.size()) {
                     Toast.makeText(getApplicationContext(), "No image available to " +
                             "save for this round.", Toast.LENGTH_SHORT).show();
                 } else {

@@ -3,45 +3,45 @@
 
     <ListPreference
         android:id="@+id/difficulty"
+        android:entries="@array/difficulty_select"
+        android:entryValues="@array/difficulty_select"
         android:key="difficulty"
         android:summary="Difficulty"
-        android:title="Drawing Prompt"
-        android:entries="@array/difficulty_select"
-        android:entryValues="@array/difficulty_select"/>
+        android:title="Drawing Prompt" />
 
     <cs371m.papertelephone.NumberPickerPreference
         android:id="@+id/rounds"
+        android:defaultValue="1"
         android:key="rounds"
-        android:title="Number of Players"
         android:summary="Currently "
-        android:defaultValue="1"/>
+        android:title="Number of Players" />
 
-<!--    <cs371m.papertelephone.TimerPickerPreference
-        android:id="@+id/drawCountDownPicker"
-        android:key="drawCountdownPicker"
-        android:title="Test Countdown Picker"
-        android:summary="Test Countdown Picker"
-        android:defaultValue="0"/>-->
+    <!--    <cs371m.papertelephone.TimerPickerPreference
+            android:id="@+id/drawCountDownPicker"
+            android:key="drawCountdownPicker"
+            android:title="Test Countdown Picker"
+            android:summary="Test Countdown Picker"
+            android:defaultValue="0"/>-->
 
     <EditTextPreference
-        android:key="drawCountdown"
-        android:summary="Time to draw (seconds)"
         android:defaultValue="60"
-        android:title="Drawing Time"
         android:inputType="numberSigned"
-        android:selectAllOnFocus="true"/>
+        android:key="drawCountdown"
+        android:selectAllOnFocus="true"
+        android:summary="Time to draw (seconds)"
+        android:title="Drawing Time" />
 
     <EditTextPreference
-        android:key="guessCountdown"
-        android:summary="Time to guess (seconds)"
         android:defaultValue="30"
-        android:title="Guessing Time"
         android:inputType="numberSigned"
-        android:selectAllOnFocus="true"/>
+        android:key="guessCountdown"
+        android:selectAllOnFocus="true"
+        android:summary="Time to guess (seconds)"
+        android:title="Guessing Time" />
 
     <CheckBoxPreference
+        android:defaultValue="true"
         android:key="colorOn"
         android:summary="Color on or color off"
-        android:defaultValue="true"
         android:title="Color" />
 </PreferenceScreen>

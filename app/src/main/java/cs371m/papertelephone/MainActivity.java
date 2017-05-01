@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
     public void startNewGame(View view) {
         final Intent intent = new Intent(this, DrawingActivity.class);
         SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
-        if (sharedPref.getString("difficulty", "Easy").equals("Choose your own!") ) {
+        if (sharedPref.getString("difficulty", "Easy").equals("Choose your own!")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
             builder.setTitle("Write your prompt");
@@ -125,8 +125,6 @@ public class MainActivity extends AppCompatActivity {
 /*            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);*/
             builder.setView(input);
-
-
 
             // Set up the buttons
             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
