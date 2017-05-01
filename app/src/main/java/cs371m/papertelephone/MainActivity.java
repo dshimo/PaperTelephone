@@ -136,10 +136,11 @@ public class MainActivity extends AppCompatActivity {
                         ((TelephoneCounter) getApplicationContext()).guesses.clear();
                         ((TelephoneCounter) getApplicationContext()).pictures.clear();
                         startActivity(intent);
+                    } else {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "You didn't write anything!", Toast.LENGTH_SHORT);
+                        toast.show();
                     }
-                    Toast toast = Toast.makeText(getApplicationContext(),
-                            "You didn't write anything!", Toast.LENGTH_SHORT);
-                    toast.show();
                     dialog.cancel();
                 }
             });
