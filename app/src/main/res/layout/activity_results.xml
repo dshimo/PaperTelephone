@@ -64,10 +64,9 @@
         android:layout_above="@+id/endgame_options_showcase"
         android:background="#00ffffff"
         android:orientation="horizontal"
-        android:paddingBottom="1.0dip"
-        android:paddingLeft="4.0dip"
-        android:paddingRight="4.0dip"
-        android:paddingTop="5.0dip">
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="8dp">
 
         <Button
             android:id="@+id/prevButton"
@@ -102,10 +101,7 @@
         android:layout_alignParentBottom="true"
         android:background="#00ffffff"
         android:orientation="horizontal"
-        android:paddingBottom="1.0dip"
-        android:paddingLeft="4.0dip"
-        android:paddingRight="4.0dip"
-        android:paddingTop="5.0dip">
+        android:padding="8dp">
 
         <Button
             android:id="@+id/main_menu_button"
@@ -113,7 +109,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
-            android:text="@string/save_prompt" />
+            android:onClick="returnToMainActivity"
+            android:text="@string/main_menu_prompt" />
 
         <Button
             android:id="@+id/new_game_button"
@@ -121,7 +118,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/next_prompt" />
+            android:onClick="startNewGame"
+            android:text="@string/start_new_game_prompt" />
 
     </LinearLayout>
 </RelativeLayout>
