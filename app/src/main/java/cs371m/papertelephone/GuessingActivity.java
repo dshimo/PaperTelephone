@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rd.PageIndicatorView;
 
@@ -110,21 +111,25 @@ public class GuessingActivity extends AppCompatActivity {
     }
 
     public void guessButtonClicked() {
-        timer.cancel();
         String guessInput = mGuessEditTextView.getText().toString();
-        getTelephone().guesses.add(guessInput);
-        getTelephone().counter += 1;
-
-        Intent intent;
-        Log.d("TAG", "Counter = " + getTelephone().counter);
-        if (getTelephone().counter > numRounds) {
-            intent = new Intent(this, ResultsActivity.class);
+        if (guessInput.length() == 0) {
+            Toast.makeText(this, "Please enter a guess.", Toast.LENGTH_SHORT).show();
         } else {
-            intent = new Intent(this, DrawingActivity.class);
-        }
+            timer.cancel();
+            getTelephone().guesses.add(guessInput);
+            getTelephone().counter += 1;
 
-        startActivity(intent);
-        finish();
+            Intent intent;
+            Log.d("TAG", "Counter = " + getTelephone().counter);
+            if (getTelephone().counter > numRounds) {
+                intent = new Intent(this, ResultsActivity.class);
+            } else {
+                intent = new Intent(this, DrawingActivity.class);
+            }
+
+            startActivity(intent);
+            finish();
+        }
     }
 
     public void onPause() {
