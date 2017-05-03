@@ -185,8 +185,8 @@ public class ResultsActivity extends AppCompatActivity {
     public void startNewGame(View view) {
         final Intent intent = new Intent(this, DrawingActivity.class);
         SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
-        Log.d("sharedPref", sharedPref.getString("difficulty", "Easy"));
-        if (sharedPref.getString("difficulty", "Easy").equals("Choose your own!")) {
+        Log.d("sharedPref", MainActivity.difficulty);
+        if (MainActivity.difficulty.equals("Choose your own!")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
             builder.setTitle("Write your prompt");
@@ -194,7 +194,9 @@ public class ResultsActivity extends AppCompatActivity {
             final EditText input = new EditText(this);
             input.setInputType(InputType.TYPE_CLASS_TEXT);
             input.requestFocus();
-
+            //the snippet doesn't automatically bring up keyboard unfortunately
+/*            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);*/
             builder.setView(input);
 
             // Set up the buttons
@@ -207,10 +209,12 @@ public class ResultsActivity extends AppCompatActivity {
                         ((TelephoneCounter) getApplicationContext()).guesses.clear();
                         ((TelephoneCounter) getApplicationContext()).pictures.clear();
                         startActivity(intent);
+                        finish();
+                    } else {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "You didn't write anything!", Toast.LENGTH_SHORT);
+                        toast.show();
                     }
-                    Toast toast = Toast.makeText(getApplicationContext(),
-                            "You didn't write anything!", Toast.LENGTH_SHORT);
-                    toast.show();
                     dialog.cancel();
                 }
             });
@@ -226,7 +230,7 @@ public class ResultsActivity extends AppCompatActivity {
             ((TelephoneCounter) getApplicationContext()).guesses.clear();
             ((TelephoneCounter) getApplicationContext()).pictures.clear();
             startActivity(intent);
+            finish();
         }
-        finish();
     }
 }

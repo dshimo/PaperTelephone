@@ -112,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
     public void startNewGame(View view) {
         final Intent intent = new Intent(this, DrawingActivity.class);
         SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
-        Log.d("sharedPref", sharedPref.getString("difficulty", "Easy"));
-        if (sharedPref.getString("difficulty", "Easy").equals("Choose your own!")) {
+        Log.d("sharedPref", sharedPref.getString("difficulty", "Easy Words"));
+        if (sharedPref.getString("difficulty", "Easy Words").equals("Choose your own!")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
             builder.setTitle("Write your prompt");
