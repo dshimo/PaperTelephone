@@ -9,34 +9,25 @@
         android:summary="Difficulty"
         android:title="Drawing Prompt" />
 
-    <cs371m.papertelephone.NumberPickerPreference
+    <cs371m.papertelephone.RoundPickerPreference
         android:id="@+id/rounds"
         android:defaultValue="1"
         android:key="rounds"
         android:summary="Currently "
         android:title="Number of Players" />
 
-    <!--    <cs371m.papertelephone.TimerPickerPreference
-            android:id="@+id/drawCountDownPicker"
-            android:key="drawCountdownPicker"
-            android:title="Test Countdown Picker"
-            android:summary="Test Countdown Picker"
-            android:defaultValue="0"/>-->
-
-    <EditTextPreference
+    <cs371m.papertelephone.TimePickerPreference
+        android:id="@+id/drawCountdown"
         android:defaultValue="60"
-        android:inputType="numberSigned"
         android:key="drawCountdown"
-        android:selectAllOnFocus="true"
-        android:summary="Time to draw (seconds)"
+        android:summary="Time to draw (seconds) "
         android:title="Drawing Time" />
 
-    <EditTextPreference
-        android:defaultValue="30"
-        android:inputType="numberSigned"
+    <cs371m.papertelephone.TimePickerPreference
+        android:id="@+id/guessCountdown"
+        android:defaultValue="60"
         android:key="guessCountdown"
-        android:selectAllOnFocus="true"
-        android:summary="Time to guess (seconds)"
+        android:summary="Time to guess (seconds) "
         android:title="Guessing Time" />
 
     <CheckBoxPreference

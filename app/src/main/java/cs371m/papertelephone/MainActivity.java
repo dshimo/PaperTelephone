@@ -43,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean("colorOn", colorOn);
-        editor.putString("drawCountdown", String.valueOf(drawCountdown));
+        editor.putInt("drawCountdown", drawCountdown);
         editor.putInt("rounds", rounds);
-        editor.putString("guessCountdown", String.valueOf(guessCountdown));
+        editor.putInt("guessCountdown", guessCountdown);
         editor.putString("difficulty", String.valueOf(difficulty));
 
         editor.apply();
@@ -59,10 +59,9 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
         difficulty = sharedPref.getString("difficulty", "Easy Words");
         colorOn = sharedPref.getBoolean("colorOn", true);
-        drawCountdown = Integer.parseInt(sharedPref.getString("drawCountdown", "60"));
+        drawCountdown = sharedPref.getInt("drawCountdown", 60);
         rounds = sharedPref.getInt("rounds", 1);
-//        rounds = Integer.parseInt((sharedPref.getString("rounds", "1")));
-        guessCountdown = Integer.parseInt(sharedPref.getString("guessCountdown", "30"));
+        guessCountdown = sharedPref.getInt("guessCountdown", 60);
     }
 
     @Override
@@ -71,9 +70,9 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == SETTINGS_REQUEST) {
             colorOn = sharedPref.getBoolean("colorOn", true);
             Log.d(TAG, "colorOn: " + colorOn);
-            drawCountdown = Integer.parseInt(sharedPref.getString("drawCountdown", "60"));
+            drawCountdown = sharedPref.getInt("drawCountdown", 60);
             rounds = sharedPref.getInt("rounds", 1);
-            guessCountdown = Integer.parseInt(sharedPref.getString("guessCountdown", "15"));
+            guessCountdown = sharedPref.getInt("guessCountdown", 60);
             difficulty = sharedPref.getString("difficulty", "Easy Words");
         }
     }

@@ -15,22 +15,22 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.NumberPicker;
 
-public class NumberPickerPreference extends DialogPreference {
+public class RoundPickerPreference extends DialogPreference {
 
     // allowed range
-    public static final int MAX_VALUE = 100;
-    public static final int MIN_VALUE = 1;
+    private static final int MAX_VALUE = 100;
+    private static final int MIN_VALUE = 1;
     // enable or disable the 'circular behavior'
-    public static final boolean WRAP_SELECTOR_WHEEL = true;
+    private static final boolean WRAP_SELECTOR_WHEEL = true;
 
     private NumberPicker picker;
     private int value;
 
-    public NumberPickerPreference(Context context, AttributeSet attrs) {
+    public RoundPickerPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public NumberPickerPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RoundPickerPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -79,12 +79,12 @@ public class NumberPickerPreference extends DialogPreference {
         setValue(restorePersistedValue ? getPersistedInt(MIN_VALUE) : (Integer) defaultValue);
     }
 
-    public void setValue(int value) {
+    private void setValue(int value) {
         this.value = value;
         persistInt(this.value);
     }
 
-    public int getValue() {
+    private int getValue() {
         return this.value;
     }
 }

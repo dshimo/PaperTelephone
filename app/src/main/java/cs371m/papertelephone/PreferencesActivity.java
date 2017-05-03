@@ -122,7 +122,7 @@ public class PreferencesActivity extends AppCompatActivity {
                             drawTimePref.setSummary(drawTimeSummary);
 
                             SharedPreferences.Editor editor = sharedPrefs.edit();
-                            editor.putString("drawCountdown", newValue.toString());
+                            editor.putInt("drawCountdown", (int)newValue);
                             editor.apply();
                             return true;
                         }
@@ -131,7 +131,7 @@ public class PreferencesActivity extends AppCompatActivity {
         }
 
         private void updateDrawTimeSummary() {
-            String drawTimeSummary = "Time to Draw | Currently " + sharedPrefs.getString("drawCountdown", "60") + " seconds";
+            String drawTimeSummary = "Time to Draw | Currently " + sharedPrefs.getInt("drawCountdown", 60) + " seconds";
             Preference drawTimePref = findPreference("drawCountdown");
             drawTimePref.setSummary(drawTimeSummary);
         }
@@ -147,7 +147,7 @@ public class PreferencesActivity extends AppCompatActivity {
                             guessTimePref.setSummary(guessTimeSummary);
 
                             SharedPreferences.Editor editor = sharedPrefs.edit();
-                            editor.putString("guessCountdown", newValue.toString());
+                            editor.putInt("guessCountdown", (int)newValue);
                             editor.apply();
                             return true;
                         }
@@ -156,7 +156,7 @@ public class PreferencesActivity extends AppCompatActivity {
         }
 
         private void updateGuessTimeSummary() {
-            String guessTimeSummary = "Time to Guess | Currently " + sharedPrefs.getString("guessCountdown", "15") + " seconds";
+            String guessTimeSummary = "Time to Guess | Currently " + sharedPrefs.getInt("guessCountdown", 60) + " seconds";
             Preference guessTimePref = findPreference("guessCountdown");
             guessTimePref.setSummary(guessTimeSummary);
         }
