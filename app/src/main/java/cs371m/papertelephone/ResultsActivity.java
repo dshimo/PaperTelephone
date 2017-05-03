@@ -185,6 +185,7 @@ public class ResultsActivity extends AppCompatActivity {
     public void startNewGame(View view) {
         final Intent intent = new Intent(this, DrawingActivity.class);
         SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
+        Log.d("sharedPref", sharedPref.getString("difficulty", "Easy"));
         if (sharedPref.getString("difficulty", "Easy").equals("Choose your own!")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -226,5 +227,6 @@ public class ResultsActivity extends AppCompatActivity {
             ((TelephoneCounter) getApplicationContext()).pictures.clear();
             startActivity(intent);
         }
+        finish();
     }
 }
