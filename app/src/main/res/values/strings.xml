@@ -3,11 +3,12 @@
     <string name="settings">Settings</string>
     <string name="new_game">New Game</string>
     <string name="how_to_play">How To Play</string>
-    <string name="welcome_to_paper">Welcome to Paper Telephone, a fun local multiplayer drawing game.
+    <string name="welcome_to_paper">Welcome to Paper Telephone, a fun local multiplayer drawing game
+        and you only need one phone to get started!
         This game involves three steps: draw an image based on a word, pass the device to the next
         player, and guess the original word associated with the drawing. To begin playing, select
         the New Game button on the home screen.</string>
-    <string name="a_canvas_to_draw">A canvas to draw should now be displayed on the screen. Given a
+    <string name="a_canvas_to_draw">Given a
         word to draw, create your work of art by drawing on screen with your finger. Once finished,
         pass the device onto the next player in the group for the next round. This player will now
         try to guess the word that the drawing is based on. Once a guess has been made, pass the
