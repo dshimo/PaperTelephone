@@ -11,21 +11,18 @@
 
     <cs371m.papertelephone.RoundPickerPreference
         android:id="@+id/rounds"
-        android:defaultValue="1"
         android:key="rounds"
         android:summary="Currently "
         android:title="Number of Players" />
 
     <cs371m.papertelephone.TimePickerPreference
         android:id="@+id/drawCountdown"
-        android:defaultValue="60"
         android:key="drawCountdown"
         android:summary="Time to draw (seconds) "
         android:title="Drawing Time" />
 
     <cs371m.papertelephone.TimePickerPreference
         android:id="@+id/guessCountdown"
-        android:defaultValue="60"
         android:key="guessCountdown"
         android:summary="Time to guess (seconds) "
         android:title="Guessing Time" />

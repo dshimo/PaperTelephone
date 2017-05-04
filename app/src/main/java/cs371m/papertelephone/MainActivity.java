@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         difficulty = sharedPref.getString("difficulty", "Easy Words");
         colorOn = sharedPref.getBoolean("colorOn", true);
         drawCountdown = sharedPref.getInt("drawCountdown", 60);
-        rounds = sharedPref.getInt("rounds", 1);
+        rounds = sharedPref.getInt("rounds", 3);
         guessCountdown = sharedPref.getInt("guessCountdown", 60);
     }
 
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             colorOn = sharedPref.getBoolean("colorOn", true);
             Log.d(TAG, "colorOn: " + colorOn);
             drawCountdown = sharedPref.getInt("drawCountdown", 60);
-            rounds = sharedPref.getInt("rounds", 1);
+            rounds = sharedPref.getInt("rounds", 3);
             guessCountdown = sharedPref.getInt("guessCountdown", 60);
             difficulty = sharedPref.getString("difficulty", "Easy Words");
         }
